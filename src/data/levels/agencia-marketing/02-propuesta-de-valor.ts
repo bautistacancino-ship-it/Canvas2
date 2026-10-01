@@ -39,9 +39,13 @@ export const agenciaPropuestaDeValor = {
       goldenRule: 'Tu cliente no compra una web. Compra lo que la web le permite lograr.',
     },
     fitMap: {
+      stepLabel: 'El Encaje',
+      badge: '🧩 El Encaje (Fit)',
       intro:
         'La propuesta de valor se construye conectando dos lados. A la izquierda está tu cliente (lo que ya descubriste en Segmentos). A la derecha, lo que tu agencia ofrece.',
-      exampleClient: 'Ecommerce de moda en Shopify',
+      leftTitle: '👤 Perfil del cliente · Ecommerce de moda en Shopify',
+      rightTitle: '🛠️ Mapa de valor de tu agencia',
+      revealLabel: '¿Qué le ofrece tu agencia? Conectar →',
       rows: [
         {
           icon: '🎯',

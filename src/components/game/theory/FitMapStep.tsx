@@ -10,17 +10,17 @@ interface FitMapStepProps {
   onReveal: (index: number) => void;
 }
 
-/** Perfil del cliente ↔ Mapa de valor: el jugador conecta cada fila para ver qué la resuelve. */
+/** Dos columnas (ej. perfil ↔ mapa de valor): el jugador conecta cada fila para revelar el lado derecho. */
 export function FitMapStep({ fitMap, revealed, onReveal }: FitMapStepProps) {
   return (
     <div className="space-y-4">
       <section className={`${cardClass} p-5 sm:p-6`}>
-        <span className="rounded-full bg-sky px-3 py-1 text-xs font-bold text-sky-strong">🧩 El Encaje (Fit)</span>
+        <span className="rounded-full bg-sky px-3 py-1 text-xs font-bold text-sky-strong">{fitMap.badge}</span>
         <p className="mt-3 text-ink/75">{fitMap.intro}</p>
         <div className="mt-4 hidden grid-cols-[1fr_56px_1fr] gap-2 px-1 text-xs font-bold uppercase tracking-wider text-muted sm:grid">
-          <span>👤 Perfil del cliente · {fitMap.exampleClient}</span>
+          <span>{fitMap.leftTitle}</span>
           <span />
-          <span>🛠️ Mapa de valor de tu agencia</span>
+          <span>{fitMap.rightTitle}</span>
         </div>
         <div className="mt-2 space-y-3">
           {fitMap.rows.map((row, i) => {
@@ -60,7 +60,7 @@ export function FitMapStep({ fitMap, revealed, onReveal }: FitMapStepProps) {
                       whileTap={{ scale: 0.97 }}
                       className="rounded-2xl border-2 border-dashed border-line p-3 text-left font-display text-sm font-semibold text-muted hover:border-lime-strong hover:text-lime-strong"
                     >
-                      ¿Qué le ofrece tu agencia? Conectar →
+                      {fitMap.revealLabel}
                     </motion.button>
                   )}
                 </AnimatePresence>
@@ -70,10 +70,12 @@ export function FitMapStep({ fitMap, revealed, onReveal }: FitMapStepProps) {
         </div>
       </section>
 
-      <section className="flex items-start gap-3 rounded-[28px] bg-sun p-5">
-        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-white text-2xl">🧲</span>
-        <p className="text-ink/80">{fitMap.note}</p>
-      </section>
+      {fitMap.note && (
+        <section className="flex items-start gap-3 rounded-[28px] bg-sun p-5">
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-white text-2xl">🧲</span>
+          <p className="text-ink/80">{fitMap.note}</p>
+        </section>
+      )}
     </div>
   );
 }

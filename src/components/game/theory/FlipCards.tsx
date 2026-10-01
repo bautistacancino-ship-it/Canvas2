@@ -82,6 +82,9 @@ export function FlipCards({ cards, seen, onSeen }: FlipCardsProps) {
                   {card.trap ? '⚠️ Cuidado' : 'En tu agencia'}
                 </span>
                 <p className="mt-3 pr-8 text-[15px] font-medium leading-relaxed">{card.example}</p>
+                {card.tag && (
+                  <span className="mt-2 self-start rounded-full bg-surface px-2.5 py-1 text-xs font-semibold text-ink/70">🎯 {card.tag}</span>
+                )}
                 <Blob
                   color={BLOB_CYCLE[i % BLOB_CYCLE.length]}
                   mood={card.trap ? 'sad' : 'happy'}

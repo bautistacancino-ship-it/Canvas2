@@ -9,14 +9,16 @@ import { FitMapStep } from './FitMapStep';
 import { FlipCards } from './FlipCards';
 import { FormulaStep } from './FormulaStep';
 import { NoviceVsPro } from './NoviceVsPro';
+import { PhasesStep } from './PhasesStep';
 
-type Step = 'concept' | 'fit' | 'cards' | 'formula' | 'compare';
+type Step = 'concept' | 'fit' | 'phases' | 'cards' | 'formula' | 'compare';
 
 /** Fase 1 por pasos: concepto → (encaje) → tarjetas → (fórmula) → novato vs. profesional. */
 export function TheoryModule({ config, onComplete }: { config: TheoryConfig; onComplete: () => void }) {
   const steps: { id: Step; label: string }[] = [
     { id: 'concept', label: 'Concepto' },
-    ...(config.fitMap ? [{ id: 'fit' as const, label: 'El Encaje' }] : []),
+    ...(config.fitMap ? [{ id: 'fit' as const, label: config.fitMap.stepLabel }] : []),
+    ...(config.phases ? [{ id: 'phases' as const, label: `Las ${config.phases.items.length} fases` }] : []),
     { id: 'cards', label: `${config.cards.length} tipos` },
     ...(config.formula ? [{ id: 'formula' as const, label: 'La fórmula' }] : []),
     ...(config.comparison?.length ? [{ id: 'compare' as const, label: 'Novato vs. Pro' }] : []),
@@ -26,6 +28,7 @@ export function TheoryModule({ config, onComplete }: { config: TheoryConfig; onC
   const [showPro, setShowPro] = useState<Set<number>>(new Set());
   const [revealed, setRevealed] = useState<Set<number>>(new Set());
   const [fitRevealed, setFitRevealed] = useState<Set<number>>(new Set());
+  const [phasesRevealed, setPhasesRevealed] = useState<Set<string>>(new Set());
 
   const stepIndex = steps.findIndex((s) => s.id === step);
   const isLast = stepIndex === steps.length - 1;
@@ -33,6 +36,7 @@ export function TheoryModule({ config, onComplete }: { config: TheoryConfig; onC
     step === 'concept' ||
     step === 'formula' ||
     (step === 'fit' && fitRevealed.size === (config.fitMap?.rows.length ?? 0)) ||
+    (step === 'phases' && phasesRevealed.size === (config.phases?.items.length ?? 0)) ||
     (step === 'cards' && seen.size === config.cards.length) ||
     (step === 'compare' && revealed.size === (config.comparison?.length ?? 0));
 
@@ -41,6 +45,8 @@ export function TheoryModule({ config, onComplete }: { config: TheoryConfig; onC
   const hint =
     step === 'fit'
       ? `Conecta cada fila (${fitRevealed.size}/${config.fitMap?.rows.length ?? 0})`
+      : step === 'phases'
+        ? `Mira el 404 de cada fase (${phasesRevealed.size}/${config.phases?.items.length ?? 0})`
       : step === 'cards'
       ? `Toca cada tarjeta para ver el ejemplo (${seen.size}/${config.cards.length})`
       : step === 'compare'
@@ -81,9 +87,24 @@ export function TheoryModule({ config, onComplete }: { config: TheoryConfig; onC
               onReveal={(i) => setFitRevealed((prev) => new Set(prev).add(i))}
             />
           )}
+          {step === 'phases' && config.phases && (
+            <PhasesStep
+              phases={config.phases}
+              revealed={phasesRevealed}
+              onReveal={(id) => setPhasesRevealed((prev) => new Set(prev).add(id))}
+            />
+          )}
           {step === 'formula' && config.formula && <FormulaStep formula={config.formula} />}
           {step === 'cards' && (
-            <FlipCards cards={config.cards} seen={seen} onSeen={(id) => setSeen((prev) => new Set(prev).add(id))} />
+            <div className="space-y-4">
+              <FlipCards cards={config.cards} seen={seen} onSeen={(id) => setSeen((prev) => new Set(prev).add(id))} />
+              {config.cardsNote && (
+                <p className="flex items-start gap-3 rounded-[28px] bg-sun p-5 text-ink/80">
+                  <span className="text-2xl">🎚️</span>
+                  {config.cardsNote}
+                </p>
+              )}
+            </div>
           )}
           {step === 'compare' && config.comparison && (
             <NoviceVsPro

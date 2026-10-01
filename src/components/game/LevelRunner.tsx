@@ -7,12 +7,16 @@ import { cardClass } from '@/components/ui/Card';
 import { IconTile } from '@/components/ui/IconTile';
 import { getBlockMeta } from '@/data/canvasBlocks';
 import { getLevel } from '@/data/levels';
+import { reviewCards } from '@/lib/theory';
 import { BLOB_COLORS } from '@/lib/tones';
 import { selectBlockPhase, useGameStore, useHasHydrated } from '@/store/useGameStore';
 import type { CanvasBlockId, CanvasEntry } from '@/types/game';
 import { CanvasBlockForm } from './build/CanvasBlockForm';
 import { FormulaBuilder } from './build/FormulaBuilder';
+import { LinesBuilder } from './build/LinesBuilder';
 import { FitLab } from './fitlab/FitLab';
+import { Journey } from './journey/Journey';
+import { AccountsMonitor } from './accounts/AccountsMonitor';
 import { MediaQueryBuilder } from './build/MediaQueryBuilder';
 import { LevelComplete } from './LevelComplete';
 import { PhaseStepper } from './PhaseStepper';
@@ -84,20 +88,17 @@ export function LevelRunner({ blockId }: { blockId: CanvasBlockId }) {
     onSubmit: (values: CanvasEntry) => completeLevel(blockId, values),
   };
   const build = level.build;
-  const referenceBlock = build.kind === 'value-formula' ? build.reference?.blockId : undefined;
+  const referenceBlock = build.kind === 'value-formula' || build.kind === 'lines' ? build.reference?.blockId : undefined;
+  const reference = referenceBlock
+    ? { build: getLevel(profile.businessId, referenceBlock)?.build, entry: canvas[referenceBlock] }
+    : undefined;
   const renderBuild = () =>
     build.kind === 'media-query' ? (
       <MediaQueryBuilder {...buildProps} config={build} />
     ) : build.kind === 'value-formula' ? (
-      <FormulaBuilder
-        {...buildProps}
-        config={build}
-        reference={
-          referenceBlock
-            ? { build: getLevel(profile.businessId, referenceBlock)?.build, entry: canvas[referenceBlock] }
-            : undefined
-        }
-      />
+      <FormulaBuilder {...buildProps} config={build} reference={reference} />
+    ) : build.kind === 'lines' ? (
+      <LinesBuilder {...buildProps} config={build} reference={reference} />
     ) : (
       <CanvasBlockForm {...buildProps} config={build} />
     );
@@ -132,7 +133,7 @@ export function LevelRunner({ blockId }: { blockId: CanvasBlockId }) {
           {phase === 'quiz' && (
             <QuizPhase
               config={level.quiz}
-              cards={level.theory.cards}
+              cards={reviewCards(level.theory)}
               onPass={(result, badges) => completeQuiz(blockId, result, badges)}
             />
           )}
@@ -140,8 +141,12 @@ export function LevelRunner({ blockId }: { blockId: CanvasBlockId }) {
           {phase === 'simulation' && (
             (level.simulation.kind === 'inbox' ? (
               <InboxSimulator config={level.simulation} onComplete={(result) => completeActivity(blockId, result)} />
-            ) : (
+            ) : level.simulation.kind === 'fit-lab' ? (
               <FitLab config={level.simulation} onComplete={(result) => completeActivity(blockId, result)} />
+            ) : level.simulation.kind === 'journey' ? (
+              <Journey config={level.simulation} onComplete={(result) => completeActivity(blockId, result)} />
+            ) : (
+              <AccountsMonitor config={level.simulation} onComplete={(result) => completeActivity(blockId, result)} />
             ))
           )}
 

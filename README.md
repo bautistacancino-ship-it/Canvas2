@@ -97,5 +97,42 @@ Reputación según la confianza promedio (máx. ±30). Completar el nivel suma +
 **Resultados:** 🏆 total (7 conexiones, 4 trampas en la papelera, 5 slots) · ⚠️ parcial (Fit ≥ 70% y ≥ 3 slots) ·
 💀 rebote total (2+ trampas conectadas, titular genérico, comprensión < 50%, o no alcanza el parcial).
 
-La Fase 3 de cada nivel es intercambiable (`simulation.kind`: `inbox` | `fit-lab`), igual que la Fase 4 (`build.kind`:
-`media-query` | `value-formula` | `fields`). La lógica de cada actividad vive en `lib/` como funciones puras.
+La Fase 3 de cada nivel es intercambiable (`simulation.kind`: `inbox` | `fit-lab` | `journey` | `accounts`), igual que la Fase 4 (`build.kind`:
+`media-query` | `value-formula` | `lines` | `fields`). La lógica de cada actividad vive en `lib/` como funciones puras.
+
+## Nivel 3 · Canales (Agencia de Marketing Digital y Diseño Web)
+
+| Fase | Mecánica |
+| --- | --- |
+| 1 · Micro-learning | Concepto (user flow) → Las 5 fases del canal, cada una con su ruta buena y su 404 típico → 6 tipos de canal → Novato vs. Pro |
+| 2 · Quiz | Mismas reglas. Si repruebas, repasas la fase o tarjeta relacionada. 7/7 → ⚡ *Cero 404* |
+| 3 · Journey Board | **A** Swipe de 10 cartas (👉 sirve · 👈 no sirve; arrastre, botones o flechas). **B** Tablero de 5 columnas con 1.500 monedas y 60 horas al mes; columna vacía = 404; no se puede lanzar si te pasas. **C** Simulación de 3 meses: embudo con partículas, grietas en cartas débiles y 4 eventos |
+| 4 · Reto final | 1 canal concreto por fase (máx. 8 palabras) + canal principal + métrica. Prohibido "redes sociales" y "boca a boca". Muestra tu media query de Segmentos como referencia |
+
+**Embudo:** la configuración óptima del documento (430 monedas, 57 horas) produce 100 → 30 → 8 → 8 → 3 referidos + 4 segundos
+sprints (+1 cliente por la recomendación de Valentina). Sumar la feria obliga a sacrificar otras cartas (te pasas de horas).
+
+**Recompensas:** +30 por swipe correcto · +60 por trampa descartada (🛡️ *Reputación intacta* si descartas ambas) ·
++100 sin 404 (🗺️ *User Flow Completo*) · +80 con 2+ canales de conocimiento (🔀 *A prueba de algoritmos*) ·
++5 por hora o 100 monedas sobrantes · +200 por referido · +500 monedas por cliente · 🎖️ *Growth Architect* con éxito total.
+
+**Resultados:** 🏆 total (8+ clientes, cartas buenas en las 5 fases, recursos que alcanzan, 2+ canales de conocimiento) ·
+⚠️ parcial · 🚫 Error 404 (fase vacía, carta trampa en el tablero o menos de 4 clientes).
+
+## Nivel 4 · Relación con Clientes (Agencia de Marketing Digital y Diseño Web)
+
+| Fase | Mecánica |
+| --- | --- |
+| 1 · Micro-learning | Concepto (la UX de tu servicio) → Los 3 objetivos (captación, fidelización, estimulación) ↔ producto digital → 6 tipos de relación con "Ideal para" → Novato vs. Pro |
+| 2 · Quiz | Mismas reglas. 7/7 → ⚡ *Cero Churn* |
+| 3 · Account Health Monitor | 6 meses con 3 clientes (Valentina, Tomás, Camila). Cada mes: un evento con 3 respuestas y luego repartir cartas de relación con 40 horas. Barras de salud con desgaste, ⚠️ riesgo bajo 30, 💸 si un cliente cuesta más de lo que paga, 🔋 energía del equipo y 💵 ingreso recurrente. Informe por mes y reporte de retención al final |
+| 4 · Reto final | Tipo de relación (chips, 1 o 2) + captación, fidelización, estimulación y señal de abandono (máx. 12 palabras). Prohibido "atención personalizada", "excelente servicio" y "siempre disponibles" |
+
+**Supuesto:** la alerta 💸 usa un valor de 40 monedas por hora del equipo (el account manager de 12 h en Camila, que paga 400, la dispara, como dice el documento).
+
+**Recompensas:** +50 por evento bien resuelto · +30 por mes sin clientes en rojo · +60 onboarding en el mes 1 (🚀 *Primera Impresión*) ·
++80 avisar primero del error (📣 *Malas noticias, buen manejo*) · +100 sin alertas 💸 en 6 meses (🎚️ *Servicio a la Medida*) ·
+segundo sprint +1.000/mes (📈 *Upgrade Desbloqueado*) · −150 por cliente perdido · 🎖️ *Retention Master* con éxito total.
+
+**Resultados:** 🏆 total (3 clientes con salud ≥ 60, energía ≥ 50%, 1+ venta adicional, ingreso ≥ 6.400) · ⚠️ parcial ·
+🪣 balde roto (se fue un cliente o la energía llegó a 0).

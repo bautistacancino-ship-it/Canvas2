@@ -56,7 +56,18 @@ export type BadgeId =
   | 'above-the-fold'
   | 'pixel-perfect-fit'
   | 'los-numeros-hablan'
-  | 'value-architect';
+  | 'value-architect'
+  | 'cero-404'
+  | 'reputacion-intacta'
+  | 'user-flow-completo'
+  | 'a-prueba-de-algoritmos'
+  | 'growth-architect'
+  | 'cero-churn'
+  | 'primera-impresion'
+  | 'malas-noticias'
+  | 'servicio-a-la-medida'
+  | 'upgrade-desbloqueado'
+  | 'retention-master';
 
 export interface Badge {
   id: BadgeId;
@@ -83,9 +94,13 @@ export interface TheoryCard {
   example: string;
   /** Tarjeta trampa: concepto que conviene evitar (se muestra con advertencia). */
   trap?: boolean;
+  /** Etiqueta corta (ej. "Ideal para: plan básico"). */
+  tag?: string;
 }
 
 export interface FitMapRow {
+  /** Necesario si la fila se puede repasar tras reprobar el quiz. */
+  id?: string;
   icon: string;
   profileLabel: string;
   profileHint: string;
@@ -94,11 +109,16 @@ export interface FitMapRow {
   valueExample: string;
 }
 
+/** Dos columnas que se conectan fila por fila (ej. perfil ↔ mapa de valor, objetivo ↔ acción). */
 export interface FitMapTheory {
+  stepLabel: string;
+  badge: string;
   intro: string;
-  exampleClient: string;
+  leftTitle: string;
+  rightTitle: string;
+  revealLabel: string;
   rows: FitMapRow[];
-  note: string;
+  note?: string;
 }
 
 /** Pieza de una frase-plantilla: texto fijo o un espacio en blanco. */
@@ -107,6 +127,21 @@ export type FormulaPart = string | { id: string; label: string; placeholder?: st
 export interface FormulaTheory {
   parts: FormulaPart[];
   example: Record<string, string>;
+}
+
+/** Recorrido por fases (ej. las 5 fases del canal): cada una con su ejemplo y su "404" típico. */
+export interface PhaseItem {
+  id: string;
+  icon: string;
+  label: string;
+  question: string;
+  example: string;
+  fail: string;
+}
+
+export interface PhasesTheory {
+  intro: string;
+  items: PhaseItem[];
 }
 
 export interface ComparisonRow {
@@ -119,7 +154,10 @@ export interface TheoryConfig {
   title: string;
   concept: TheoryConcept;
   fitMap?: FitMapTheory;
+  phases?: PhasesTheory;
   cards: TheoryCard[];
+  /** Nota que acompaña a las tarjetas (ej. "La clave: …"). */
+  cardsNote?: string;
   formula?: FormulaTheory;
   comparison?: ComparisonRow[];
 }
@@ -301,7 +339,174 @@ export interface FitLabConfig {
   collapse: { minTrapsConnected: number; minComprehension: number; hint: string };
 }
 
-export type SimulationConfig = InboxConfig | FitLabConfig;
+/* ─── Fase 3: Journey Board ───────────────────────────────────── */
+
+export interface SwipeCard {
+  id: string;
+  text: string;
+  /** ¿Sirve para el segmento? (swipe derecha). */
+  fits: boolean;
+  trap?: boolean;
+  why: string;
+}
+
+export type BoardCardQuality = 'good' | 'balanced' | 'weak' | 'useless' | 'trap';
+
+export interface BoardCard {
+  id: string;
+  phaseId: string;
+  text: string;
+  coins: number;
+  hours: number;
+  quality: BoardCardQuality;
+  /** Si viene del swipe, solo aparece cuando el jugador la aprobó. */
+  swipeId?: string;
+  /** Conocimiento: leads que trae (solo los `qualified` siguen el embudo). */
+  reach?: number;
+  qualified?: boolean;
+  /** Evaluación / compra: tasa de conversión que aporta. */
+  rate?: number;
+  /** Rol especial en la simulación. */
+  role?: 'linkedin' | 'partners' | 'dashboard' | 'whatsapp' | 'results-meeting' | 'referrals';
+}
+
+export interface JourneyPhase {
+  id: string;
+  icon: string;
+  label: string;
+}
+
+export interface JourneyConfig {
+  kind: 'journey';
+  title: string;
+  premise: string;
+  goalClients: number;
+  swipeCards: SwipeCard[];
+  phases: JourneyPhase[];
+  boardCards: BoardCard[];
+  resources: { coins: number; hours: number };
+  simulation: {
+    months: number;
+    leadsLabel: string;
+    weakLeadLossPct: number;
+    weakHoursPenaltyPct: number;
+    linkedinDropPct: number;
+    partnerSigned: number;
+    urgentReportHours: number;
+    valentinaClients: number;
+    secondSprintRate: number;
+    referralRate: number;
+  };
+  rewards: {
+    perSwipe: number;
+    perTrapDiscarded: number;
+    noGaps: number;
+    multiAwareness: number;
+    perLeftover: number;
+    coinsPerClient: number;
+    perReferral: number;
+  };
+  badges: { traps?: BadgeId; noGaps?: BadgeId; multiAwareness?: BadgeId; completion?: BadgeId };
+  success: { minClients: number; minAwarenessChannels: number };
+  collapse: { minClients: number; hint: string };
+}
+
+/* ─── Fase 3: Account Health Monitor ──────────────────────────── */
+
+export interface AccountClient {
+  id: string;
+  name: string;
+  avatar: string;
+  business: string;
+  plan: string;
+  fee: number;
+  health: number;
+  decay: number;
+  /** Lo que valora (se revela como pista después del primer mes). */
+  values: string;
+}
+
+export type RelationCardScope = 'client' | 'global';
+/**
+ * monthly: se paga y actúa cada mes que se usa · install: se paga una vez y actúa todos los meses ·
+ * oneshot: se paga y actúa una sola vez · quarter: se paga al activarla y actúa 3 meses.
+ */
+export type RelationCardBilling = 'monthly' | 'install' | 'oneshot' | 'quarter';
+
+export interface RelationCard {
+  id: string;
+  icon: string;
+  name: string;
+  hours: number;
+  scope: RelationCardScope;
+  billing: RelationCardBilling;
+  /** Efecto en la salud de cada cliente (por mes en que actúa). */
+  effects: Partial<Record<string, number>>;
+  note?: string;
+  /** Solo para estos clientes / meses. */
+  onlyClients?: string[];
+  onlyMonths?: number[];
+  energyPerMonth?: number;
+  /** Bonus al usarla (ej. onboarding en el mes 1). */
+  bonusPoints?: number;
+  badgeId?: BadgeId;
+}
+
+export interface AccountEventOption {
+  id: string;
+  text: string;
+  correct?: boolean;
+  /** Efecto inmediato en la salud de clientes. */
+  health?: Partial<Record<string, number>>;
+  hours?: number;
+  /** Horas que se pierden cada mes desde este en adelante. */
+  hoursDrainFromNow?: number;
+  /** Efecto diferido: { mes, cliente, salud }. */
+  later?: { month: number; client: string; health: number; note: string }[];
+  /** Horas extra que se pierden en meses futuros. */
+  laterHours?: { month: number; hours: number; note: string }[];
+  feeChange?: { client: string; fee: number };
+  oneTimeIncome?: number;
+  /** Cuenta como venta adicional (para el reporte de retención). */
+  extraSale?: string;
+  /** Aplica una carta sin costo de horas (ej. el onboarding). */
+  usesCard?: { card: string; client: string };
+  bonusPoints?: number;
+  badgeId?: BadgeId;
+  outcome: string;
+}
+
+export interface AccountEvent {
+  month: number;
+  icon: string;
+  text: string;
+  options: AccountEventOption[];
+}
+
+export interface AccountsConfig {
+  kind: 'accounts';
+  title: string;
+  premise: string;
+  months: number;
+  hoursPerMonth: number;
+  /** Valor de una hora del equipo, para la alerta "te cuesta más de lo que paga". */
+  hourValue: number;
+  riskThreshold: number;
+  clients: AccountClient[];
+  cards: RelationCard[];
+  events: AccountEvent[];
+  rewards: {
+    perCorrectEvent: number;
+    perSafeMonth: number;
+    proportionalBonus: number;
+    lostClientPenalty: number;
+  };
+  badges: { proportional?: BadgeId; completion?: BadgeId };
+  success: { minHealth: number; minEnergy: number; minExtraSales: number; minMrr: number };
+  collapse: { hint: string };
+}
+
+export type SimulationConfig = InboxConfig | FitLabConfig | JourneyConfig | AccountsConfig;
 
 /* ─── Resultado común de cualquier actividad de la Fase 3 ─────── */
 
@@ -380,7 +585,31 @@ export interface FormulaBuildConfig {
   reference?: { blockId: CanvasBlockId; fieldId: string; targetId: string; label: string };
 }
 
-export type BuildConfig = FieldsBuildConfig | MediaQueryBuildConfig | FormulaBuildConfig;
+export interface LinesBuildConfig {
+  kind: 'lines';
+  title: string;
+  intro: string;
+  groups: {
+    id: string;
+    title: string;
+    lines: {
+      id: string;
+      icon: string;
+      label: string;
+      placeholder: string;
+      maxWords?: number;
+      /** Si existe, se elige con chips (hasta `maxSelect`) en vez de escribir. */
+      options?: string[];
+      maxSelect?: number;
+    }[];
+  }[];
+  checkNote?: string;
+  forbidden: { word: string; reason: string }[];
+  /** Bloque anterior que se muestra como referencia. */
+  reference?: { blockId: CanvasBlockId; label: string };
+}
+
+export type BuildConfig = FieldsBuildConfig | MediaQueryBuildConfig | FormulaBuildConfig | LinesBuildConfig;
 
 /** Respuestas de un bloque: fieldId → texto. */
 export type CanvasEntry = Record<string, string>;

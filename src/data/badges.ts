@@ -30,6 +30,42 @@ export const BADGES: Record<BadgeId, Badge> = {
     description: 'Elegiste un testimonio con métrica como prueba social.',
   },
   'value-architect': { id: 'value-architect', icon: '🎖️', name: 'Value Architect', description: 'Éxito total en el Fit Lab.' },
+  'cero-404': { id: 'cero-404', icon: '⚡', name: 'Cero 404', description: '7/7 en el quiz de Canales.' },
+  'reputacion-intacta': {
+    id: 'reputacion-intacta',
+    icon: '🛡️',
+    name: 'Reputación intacta',
+    description: 'Descartaste las cartas trampa en el swipe.',
+  },
+  'user-flow-completo': {
+    id: 'user-flow-completo',
+    icon: '🗺️',
+    name: 'User Flow Completo',
+    description: 'Las 5 fases del canal cubiertas, sin un solo 404.',
+  },
+  'a-prueba-de-algoritmos': {
+    id: 'a-prueba-de-algoritmos',
+    icon: '🔀',
+    name: 'A prueba de algoritmos',
+    description: 'Dos o más canales de conocimiento.',
+  },
+  'growth-architect': { id: 'growth-architect', icon: '🎖️', name: 'Growth Architect', description: 'Éxito total en el Journey Board.' },
+  'cero-churn': { id: 'cero-churn', icon: '⚡', name: 'Cero Churn', description: '7/7 en el quiz de Relación con Clientes.' },
+  'primera-impresion': { id: 'primera-impresion', icon: '🚀', name: 'Primera Impresión', description: 'Onboarding de 30 días con Tomás en el mes 1.' },
+  'malas-noticias': {
+    id: 'malas-noticias',
+    icon: '📣',
+    name: 'Malas noticias, buen manejo',
+    description: 'Le avisaste primero a Valentina, con diagnóstico y plan.',
+  },
+  'servicio-a-la-medida': {
+    id: 'servicio-a-la-medida',
+    icon: '🎚️',
+    name: 'Servicio a la Medida',
+    description: '6 meses sin que ningún cliente te costara más de lo que paga.',
+  },
+  'upgrade-desbloqueado': { id: 'upgrade-desbloqueado', icon: '📈', name: 'Upgrade Desbloqueado', description: 'Valentina contrató un segundo sprint.' },
+  'retention-master': { id: 'retention-master', icon: '🎖️', name: 'Retention Master', description: 'Éxito total en el Account Health Monitor.' },
 };
 
 export const BADGE_LIST = Object.values(BADGES);
