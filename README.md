@@ -136,3 +136,25 @@ segundo sprint +1.000/mes (📈 *Upgrade Desbloqueado*) · −150 por cliente pe
 
 **Resultados:** 🏆 total (3 clientes con salud ≥ 60, energía ≥ 50%, 1+ venta adicional, ingreso ≥ 6.400) · ⚠️ parcial ·
 🪣 balde roto (se fue un cliente o la energía llegó a 0).
+
+## Términos clickeables y Diccionario
+
+- `data/glossary.json` (69 términos, copiado del documento) + `data/glossary.ts`: formas en que aparece cada término,
+  los que distinguen mayúsculas (CSS, SEO, CRO, B2B, KPI, CTR, Fit, 404) y la lista exacta de términos por fase (`TERM_MARKS`).
+- `<TermScope>` (en `LevelRunner`, uno por fase) + `<T>{texto}</T>`: marca solo la **primera** aparición de cada término en la fase.
+  No se usa en títulos, botones, código ni tutoriales.
+- Ficha: tarjeta flotante en escritorio (Esc o clic afuera) y hoja inferior deslizable en móvil (máx. 40% de alto),
+  con 🔊 para los términos en inglés. Abrir un término no pausa el quiz.
+- Primer uso de un término: +5 Puntos de Conocimiento y entra al **📖 Diccionario** (`/diccionario`).
+  Insignias: 📘 *Primeras Palabras* (10) · 🌐 *Bilingüe Digital* (todos los términos en inglés de un bloque) · 📚 *Diccionario Completo*.
+
+## Mini tutoriales
+
+- `data/tutorials.json` (11 tutoriales, copiado del documento) + `data/tutorials.ts`: anclajes (`data-tour`) que resalta
+  cada paso y `STEP_OVERRIDES`, que ajusta algunos textos para que describan cómo funciona de verdad cada mecánica.
+- `<TutorialGate mechanic="…">`: muestra el tutorial la primera vez que aparece la mecánica según `mechanicsSeen`
+  (no según el bloque), pausa relojes y simulaciones mientras está abierto y deja el botón ❓ para repetirlo.
+  Saltar también cuenta como visto.
+- Prácticas guiadas (`components/tutorial/practices.tsx`): escenarios de prueba que no tocan el store.
+- Funciones nuevas que describen los tutoriales: 1 deshacer en el swipe, ×2 y pausa en cada evento de la simulación
+  del embudo, y vista previa de cuánto sube la salud antes de asignar una carta de relación.
