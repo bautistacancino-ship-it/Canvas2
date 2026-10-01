@@ -49,6 +49,7 @@ export function CanvasBlockForm({
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
       <form
+        data-tour="build-form"
         className={`${cardClass} space-y-5 p-5 sm:p-7`}
         onSubmit={(e) => {
           e.preventDefault();

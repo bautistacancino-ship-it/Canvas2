@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { cardClass } from '@/components/ui/Card';
 import type { FitMapTheory } from '@/types/game';
+import { T } from '@/components/glossary/Terms';
 
 interface FitMapStepProps {
   fitMap: FitMapTheory;
@@ -16,7 +17,9 @@ export function FitMapStep({ fitMap, revealed, onReveal }: FitMapStepProps) {
     <div className="space-y-4">
       <section className={`${cardClass} p-5 sm:p-6`}>
         <span className="rounded-full bg-sky px-3 py-1 text-xs font-bold text-sky-strong">{fitMap.badge}</span>
-        <p className="mt-3 text-ink/75">{fitMap.intro}</p>
+        <p className="mt-3 text-ink/75">
+          <T>{fitMap.intro}</T>
+        </p>
         <div className="mt-4 hidden grid-cols-[1fr_56px_1fr] gap-2 px-1 text-xs font-bold uppercase tracking-wider text-muted sm:grid">
           <span>{fitMap.leftTitle}</span>
           <span />
@@ -31,7 +34,9 @@ export function FitMapStep({ fitMap, revealed, onReveal }: FitMapStepProps) {
                   <p className="font-display font-bold">
                     {row.icon} {row.profileLabel} <span className="text-xs font-semibold text-ink/50">· {row.profileHint}</span>
                   </p>
-                  <p className="mt-1 text-sm">{row.profileExample}</p>
+                  <p className="mt-1 text-sm">
+                    <T>{row.profileExample}</T>
+                  </p>
                 </div>
                 <div className="grid place-items-center">
                   <motion.span
@@ -50,7 +55,9 @@ export function FitMapStep({ fitMap, revealed, onReveal }: FitMapStepProps) {
                       className="rounded-2xl bg-lime p-3"
                     >
                       <p className="font-display font-bold text-lime-strong">{row.valueLabel}</p>
-                      <p className="mt-1 text-sm">{row.valueExample}</p>
+                      <p className="mt-1 text-sm">
+                        <T>{row.valueExample}</T>
+                      </p>
                     </motion.div>
                   ) : (
                     <motion.button
@@ -73,7 +80,9 @@ export function FitMapStep({ fitMap, revealed, onReveal }: FitMapStepProps) {
       {fitMap.note && (
         <section className="flex items-start gap-3 rounded-[28px] bg-sun p-5">
           <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-white text-2xl">🧲</span>
-          <p className="text-ink/80">{fitMap.note}</p>
+          <p className="text-ink/80">
+            <T>{fitMap.note}</T>
+          </p>
         </section>
       )}
     </div>

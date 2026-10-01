@@ -14,6 +14,8 @@ import { CLASS_META, FIT_META } from './inboxMeta';
 import { InboxDebrief } from './InboxDebrief';
 import { LeadChat } from './LeadChat';
 import { LeadFiche } from './LeadFiche';
+import { T } from '@/components/glossary/Terms';
+import { TutorialGate } from '@/components/tutorial/TutorialGate';
 
 const FAKE_TIMES = ['09:12', '10:47', '11:30', '12:05'];
 
@@ -59,7 +61,9 @@ export function InboxSimulator({ config, onComplete }: InboxSimulatorProps) {
         </div>
         <div className="p-6 text-center">
           <h3 className="font-display text-2xl font-bold">{config.title}</h3>
-          <p className="mt-2 text-ink/75">&ldquo;{config.premise}&rdquo;</p>
+          <p className="mt-2 text-ink/75">
+            &ldquo;<T>{config.premise}</T>&rdquo;
+          </p>
           <p className="mt-3 text-sm text-muted">
             El objetivo no es cerrar todas las ventas, sino descubrir si cada lead pertenece a tu segmento y decidir qué hacer con él.
           </p>
@@ -104,6 +108,8 @@ export function InboxSimulator({ config, onComplete }: InboxSimulatorProps) {
   const fit = active ? FIT_META[active.lead.fit] : null;
 
   return (
+    <TutorialGate mechanic="chat">
+      {() => (
     <div className="space-y-4">
       {/* Medidores */}
       <section className={`${cardClass} grid grid-cols-2 gap-x-5 gap-y-3 p-4 md:grid-cols-4`}>
@@ -128,7 +134,7 @@ export function InboxSimulator({ config, onComplete }: InboxSimulatorProps) {
 
       <div key={round} className="grid h-[min(720px,calc(100dvh-14rem))] min-h-[520px] grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[260px_minmax(0,1fr)_280px]">
         {/* Bandeja */}
-        <aside className={`${cardClass} flex min-h-0 flex-col overflow-hidden ${activeId ? 'hidden lg:flex' : 'flex'}`}>
+        <aside data-tour="inbox-list" className={`${cardClass} flex min-h-0 flex-col overflow-hidden ${activeId ? 'hidden lg:flex' : 'flex'}`}>
           <div className="border-b border-line p-4">
             <p className="font-display text-lg font-bold">📥 Bandeja de entrada</p>
             <p className="text-xs text-muted">{config.premise}</p>
@@ -179,7 +185,7 @@ export function InboxSimulator({ config, onComplete }: InboxSimulatorProps) {
         </aside>
 
         {/* Conversación */}
-        <div className={`min-h-0 ${activeId ? 'block' : 'hidden lg:block'}`}>
+        <div data-tour="inbox-chat" className={`min-h-0 ${activeId ? 'block' : 'hidden lg:block'}`}>
           {active ? (
             <LeadChat
               key={active.lead.id}
@@ -206,7 +212,7 @@ export function InboxSimulator({ config, onComplete }: InboxSimulatorProps) {
         </div>
 
         {/* Ficha (desktop) */}
-        <div className="hidden min-h-0 overflow-y-auto lg:block">
+        <div data-tour="inbox-fiche" className="hidden min-h-0 overflow-y-auto lg:block">
           {active ? (
             <LeadFiche data={active} fields={config.fields} />
           ) : (
@@ -225,5 +231,7 @@ export function InboxSimulator({ config, onComplete }: InboxSimulatorProps) {
         </div>
       )}
     </div>
+      )}
+    </TutorialGate>
   );
 }

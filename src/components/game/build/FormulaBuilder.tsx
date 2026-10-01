@@ -11,6 +11,7 @@ import { findForbiddenWord } from '@/lib/mediaQuery';
 import { TONES, toneAt, type Tone } from '@/lib/tones';
 import type { BuildConfig, CanvasEntry, FormulaBuildConfig } from '@/types/game';
 import { countWords, formulaText } from '../shared/FormulaSentence';
+import { T } from '@/components/glossary/Terms';
 
 const MIN_LENGTH = 3;
 /** Velocidad de lectura en voz alta (~210 palabras por minuto). */
@@ -57,13 +58,16 @@ export function FormulaBuilder({ blockTitle, blockIcon, tone, config, initialVal
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
       <form
+        data-tour="build-form"
         className={`${cardClass} space-y-6 p-5 sm:p-7`}
         onSubmit={(e) => {
           e.preventDefault();
           if (isValid) onSubmit(values);
         }}
       >
-        <p className="text-ink/75">🛠️ {config.intro}</p>
+        <p className="text-ink/75">
+          🛠️ <T>{config.intro}</T>
+        </p>
 
         {reference?.entry && reference.build?.kind === 'media-query' && (
           <div className="rounded-3xl bg-surface p-4">
@@ -165,7 +169,7 @@ export function FormulaBuilder({ blockTitle, blockIcon, tone, config, initialVal
           </div>
         </section>
 
-        <div className={`rounded-2xl p-3 text-sm ${forbidden ? 'bg-pink' : 'bg-surface'}`}>
+        <div data-tour="build-forbidden" className={`rounded-2xl p-3 text-sm ${forbidden ? 'bg-pink' : 'bg-surface'}`}>
           <p className="font-semibold">
             ⛔ Palabras prohibidas:{' '}
             {config.forbiddenWords.map((w) => (

@@ -34,7 +34,7 @@ export function HeroBuilder({ config, picks, onPick, onPublish }: HeroBuilderPro
 
   return (
     <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
-      <div className="min-w-0 space-y-3">
+      <div className="min-w-0 space-y-3" data-tour="hero-preview">
         <div className="flex flex-wrap items-center gap-2">
           <span className="rounded-full bg-white px-3 py-1 font-display text-sm font-semibold shadow-soft ring-1 ring-ink/5">
             🖼️ Above the fold: {filled}/{config.slots.length} slots
@@ -44,7 +44,7 @@ export function HeroBuilder({ config, picks, onPick, onPublish }: HeroBuilderPro
         <HeroPreview config={config} picks={picks} activeSlot={active} onSlotClick={setActive} />
       </div>
 
-      <aside className={`${cardClass} self-start p-4 lg:sticky lg:top-28`}>
+      <aside data-tour="hero-panel" className={`${cardClass} self-start p-4 lg:sticky lg:top-28`}>
         <div className="flex flex-wrap gap-1.5">
           {config.slots.map((s, i) => (
             <button
@@ -83,7 +83,7 @@ export function HeroBuilder({ config, picks, onPick, onPublish }: HeroBuilderPro
           </motion.div>
         </AnimatePresence>
 
-        <Button variant="gradient" className="mt-5 w-full" disabled={filled < config.slots.length} onClick={onPublish}>
+        <Button data-tour="hero-publish" variant="gradient" className="mt-5 w-full" disabled={filled < config.slots.length} onClick={onPublish}>
           {filled < config.slots.length ? `Completa los ${config.slots.length} slots` : 'Publicar y correr el test 🚀'}
         </Button>
       </aside>

@@ -9,6 +9,7 @@ import { formatCoins, shuffle } from '@/lib/scoring';
 import type { InboxOption, LeadClass, LeadFieldMeta } from '@/types/game';
 import { CLASS_META, CLASS_ORDER, FIT_META } from './inboxMeta';
 import { LeadFiche } from './LeadFiche';
+import { T } from '@/components/glossary/Terms';
 
 type Item =
   | { key: string; kind: 'client' | 'player' | 'event'; text: string }
@@ -166,7 +167,9 @@ function ChatItem({ item, fields }: { item: Item; fields: LeadFieldMeta[] }) {
     return (
       <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="mx-auto max-w-[90%] rounded-3xl bg-ink px-4 py-3 text-center text-white">
         <p className="text-[11px] font-bold uppercase tracking-widest text-white/60">⏳ Evento simulado</p>
-        <p className="mt-0.5 text-sm">{item.text.replace(/^Evento simulado:\s*/i, '')}</p>
+        <p className="mt-0.5 text-sm">
+          <T>{item.text.replace(/^Evento simulado:\s*/i, '')}</T>
+        </p>
       </motion.div>
     );
   }
@@ -186,7 +189,7 @@ function ChatItem({ item, fields }: { item: Item; fields: LeadFieldMeta[] }) {
             : 'rounded-br-lg bg-linear-to-br from-sky-strong to-lavender-strong text-white shadow-[0_10px_20px_-12px_rgba(47,107,255,0.8)]'
         }`}
       >
-        {item.text}
+        <T>{item.text}</T>
       </p>
     </motion.div>
   );
@@ -203,7 +206,11 @@ function OutcomeChips({ option, fields }: { option: InboxOption; fields: LeadFie
 
   return (
     <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center gap-1.5">
-      {option.tag && <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-ink/70 shadow-soft">{option.tag}</span>}
+      {option.tag && (
+        <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-ink/70 shadow-soft">
+          <T>{option.tag}</T>
+        </span>
+      )}
       {unlockedLabels.length > 0 && (
         <span className="rounded-full bg-lavender px-3 py-1 text-xs font-bold text-lavender-strong">
           🔓 Ficha: {unlockedLabels.join(', ')}
@@ -268,7 +275,9 @@ function EndCard({
         {data.ficheComplete ? (
           <>
             <p className={`font-display text-xl font-bold ${fit.text}`}>🎯 Encaje: {fit.label}</p>
-            <p className="text-sm text-ink/70">{data.lead.fitNote}</p>
+            <p className="text-sm text-ink/70">
+              <T>{data.lead.fitNote}</T>
+            </p>
           </>
         ) : (
           <>

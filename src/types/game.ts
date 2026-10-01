@@ -67,7 +67,10 @@ export type BadgeId =
   | 'malas-noticias'
   | 'servicio-a-la-medida'
   | 'upgrade-desbloqueado'
-  | 'retention-master';
+  | 'retention-master'
+  | 'primeras-palabras'
+  | 'bilingue-digital'
+  | 'diccionario-completo';
 
 export interface Badge {
   id: BadgeId;

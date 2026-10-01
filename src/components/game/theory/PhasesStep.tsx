@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { cardClass } from '@/components/ui/Card';
 import type { PhasesTheory } from '@/types/game';
+import { T } from '@/components/glossary/Terms';
 
 interface PhasesStepProps {
   phases: PhasesTheory;
@@ -14,7 +15,9 @@ interface PhasesStepProps {
 export function PhasesStep({ phases, revealed, onReveal }: PhasesStepProps) {
   return (
     <div className="space-y-4">
-      <p className="text-ink/75">{phases.intro}</p>
+      <p className="text-ink/75">
+        <T>{phases.intro}</T>
+      </p>
       <ol className="grid gap-3 lg:grid-cols-5">
         {phases.items.map((item, i) => {
           const showFail = revealed.has(item.id);
@@ -24,7 +27,7 @@ export function PhasesStep({ phases, revealed, onReveal }: PhasesStepProps) {
                 <span className="text-2xl">{item.icon}</span>
                 <p className="mt-1 font-display text-lg font-bold">{item.label}</p>
                 <p className="text-xs font-semibold text-muted">{item.question}</p>
-                <p className="mt-3 rounded-2xl bg-lime p-3 text-sm">✅ {item.example}</p>
+                <p className="mt-3 rounded-2xl bg-lime p-3 text-sm">✅ <T>{item.example}</T></p>
                 <AnimatePresence initial={false}>
                   {showFail && (
                     <motion.p
@@ -32,7 +35,7 @@ export function PhasesStep({ phases, revealed, onReveal }: PhasesStepProps) {
                       animate={{ opacity: 1, height: 'auto' }}
                       className="mt-2 overflow-hidden rounded-2xl bg-pink p-3 text-sm"
                     >
-                      🚫 <b>404:</b> {item.fail}
+                      🚫 <b>404:</b> <T>{item.fail}</T>
                     </motion.p>
                   )}
                 </AnimatePresence>

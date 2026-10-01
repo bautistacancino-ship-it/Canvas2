@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import type { ClientState } from '@/lib/accounts';
 import { formatCoins } from '@/lib/scoring';
 import type { AccountClient, RelationCard } from '@/types/game';
+import { T } from '@/components/glossary/Terms';
 
 interface ClientCardProps {
   client: AccountClient;
@@ -18,6 +19,8 @@ interface ClientCardProps {
   /** Si hay una carta seleccionada que se puede asignar aquí. */
   canDrop: boolean;
   dropReason?: string | null;
+  /** Cuánto cambiaría la salud con la carta seleccionada (se ve antes de asignarla). */
+  dropPreview?: string;
   onDrop?: () => void;
   onRemove?: (cardId: string) => void;
 }
@@ -33,6 +36,7 @@ export function ClientCard({
   costAlert,
   canDrop,
   dropReason,
+  dropPreview,
   onDrop,
   onRemove,
 }: ClientCardProps) {
@@ -86,7 +90,7 @@ export function ClientCard({
 
       <p className="mt-3 rounded-2xl bg-surface px-3 py-2 text-xs">
         <span className="font-bold text-ink/60">🔍 Lo que valora: </span>
-        {hintRevealed ? client.values : <span className="text-muted">??? (se revela después del mes 1)</span>}
+        {hintRevealed ? <T>{client.values}</T> : <span className="text-muted">??? (se revela después del mes 1)</span>}
       </p>
 
       {/* Cartas de este mes */}
@@ -118,7 +122,7 @@ export function ClientCard({
             canDrop ? 'mt-3 border-lavender-strong bg-lavender/40 text-lavender-strong hover:bg-lavender' : 'mt-3 border-line text-muted'
           }`}
         >
-          {canDrop ? '＋ Asignar aquí' : dropReason ?? 'Selecciona una carta'}
+          {canDrop ? `＋ Asignar aquí${dropPreview ? ` · ${dropPreview}` : ''}` : dropReason ?? 'Selecciona una carta'}
         </button>
       )}
     </motion.article>

@@ -7,6 +7,8 @@ import { cardClass } from '@/components/ui/Card';
 import { IconTile } from '@/components/ui/IconTile';
 import { getBlockMeta } from '@/data/canvasBlocks';
 import { getLevel } from '@/data/levels';
+import { TERM_MARKS } from '@/data/glossary';
+import { TermScope } from '@/components/glossary/Terms';
 import { reviewCards } from '@/lib/theory';
 import { BLOB_COLORS } from '@/lib/tones';
 import { selectBlockPhase, useGameStore, useHasHydrated } from '@/store/useGameStore';
@@ -23,6 +25,7 @@ import { PhaseStepper } from './PhaseStepper';
 import { QuizPhase } from './quiz/QuizPhase';
 import { InboxSimulator } from './simulation/InboxSimulator';
 import { TheoryModule } from './theory/TheoryModule';
+import { TutorialGate } from '@/components/tutorial/TutorialGate';
 
 const PHASE_KICKERS = {
   theory: 'Fase 1 · Teoría',
@@ -125,17 +128,27 @@ export function LevelRunner({ blockId }: { blockId: CanvasBlockId }) {
           transition={{ duration: 0.3 }}
           className="mt-8"
         >
+          <TermScope key={`${blockId}-${phase}`} termIds={TERM_MARKS[blockId]?.[phase] ?? []}>
           <p className="px-1 text-xs font-bold uppercase tracking-widest text-lavender-strong">{heading.kicker}</p>
           <h2 className="mb-6 px-1 font-display text-2xl font-bold sm:text-3xl">{heading.title}</h2>
 
-          {phase === 'theory' && <TheoryModule config={level.theory} onComplete={() => setPhase(blockId, 'quiz')} />}
+          {phase === 'theory' && (
+            <TutorialGate mechanic="terminos">
+              {() => <TheoryModule config={level.theory} onComplete={() => setPhase(blockId, 'quiz')} />}
+            </TutorialGate>
+          )}
 
           {phase === 'quiz' && (
-            <QuizPhase
-              config={level.quiz}
-              cards={reviewCards(level.theory)}
-              onPass={(result, badges) => completeQuiz(blockId, result, badges)}
-            />
+            <TutorialGate mechanic="quiz">
+              {(paused) => (
+                <QuizPhase
+                  config={level.quiz}
+                  cards={reviewCards(level.theory)}
+                  paused={paused}
+                  onPass={(result, badges) => completeQuiz(blockId, result, badges)}
+                />
+              )}
+            </TutorialGate>
           )}
 
           {phase === 'simulation' && (
@@ -150,7 +163,8 @@ export function LevelRunner({ blockId }: { blockId: CanvasBlockId }) {
             ))
           )}
 
-          {phase === 'build' && renderBuild()}
+          {phase === 'build' && <TutorialGate mechanic="reto">{() => renderBuild()}</TutorialGate>}
+          </TermScope>
         </motion.section>
       </AnimatePresence>
     </div>

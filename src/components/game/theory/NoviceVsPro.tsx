@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Toggle } from '@/components/ui/Toggle';
 import type { ComparisonRow } from '@/types/game';
+import { T } from '@/components/glossary/Terms';
 
 interface NoviceVsProProps {
   rows: ComparisonRow[];
@@ -43,7 +44,9 @@ export function NoviceVsPro({ rows, revealed, showPro, onToggle }: NoviceVsProPr
                 <p className={`text-[11px] font-bold uppercase tracking-wider ${pro ? 'text-lime-strong' : 'text-pink-strong'}`}>
                   {pro ? '🏆 CEO de agencia exitosa' : '🐣 Agencia novata'}
                 </p>
-                <p className="mt-1 text-[15px]">{pro ? row.pro : row.novice}</p>
+                <p className="mt-1 text-[15px]">
+                  <T>{pro ? row.pro : row.novice}</T>
+                </p>
               </motion.div>
             </AnimatePresence>
             {!revealed.has(i) && <p className="mt-2 text-xs text-muted">Activa el interruptor para ver cómo lo hace un profesional.</p>}

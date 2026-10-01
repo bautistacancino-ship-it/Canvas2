@@ -7,6 +7,7 @@ import { cardClass } from '@/components/ui/Card';
 import type { FunnelStage, JourneyEvaluation } from '@/lib/journey';
 import { formatCoins } from '@/lib/scoring';
 import type { JourneyConfig } from '@/types/game';
+import { T } from '@/components/glossary/Terms';
 
 const STEP_MS = 1100;
 /** Mes en que se "vive" cada fase del embudo (para mostrar los eventos en el momento justo). */
@@ -16,26 +17,33 @@ interface FunnelSimulationProps {
   config: JourneyConfig;
   evaluation: JourneyEvaluation;
   onDone: () => void;
+  /** Mientras un tutorial está abierto, la simulación espera. */
+  paused?: boolean;
 }
 
 /** Etapa C: los leads avanzan fase por fase; en las grietas y los 404 se escapan. */
-export function FunnelSimulation({ config, evaluation, onDone }: FunnelSimulationProps) {
+export function FunnelSimulation({ config, evaluation, onDone, paused = false }: FunnelSimulationProps) {
   const stages = evaluation.funnel;
   const [step, setStep] = useState(0);
+  const [speed, setSpeed] = useState<1 | 2>(1);
+  /** Eventos que el jugador ya leyó: cuando aparece uno nuevo, la simulación se pausa. */
+  const [acknowledged, setAcknowledged] = useState(0);
   const finished = step >= stages.length;
 
-  // Un paso por fase. Depende de `step` para programar el siguiente.
+  const month = finished ? config.simulation.months : MONTH_BY_STAGE[step] ?? 1;
+  const visibleEvents = evaluation.events.filter((e) => e.month <= month);
+  const pendingEvent = visibleEvents.length > acknowledged ? visibleEvents[acknowledged] : null;
+
+  // Un paso por fase. Depende de `step` para programar el siguiente; espera en pausas y eventos.
   useEffect(() => {
+    if (paused || pendingEvent) return;
     if (finished) {
       onDone();
       return;
     }
-    const id = window.setTimeout(() => setStep((s) => s + 1), STEP_MS);
+    const id = window.setTimeout(() => setStep((s) => s + 1), STEP_MS / speed);
     return () => window.clearTimeout(id);
-  }, [step, finished, onDone]);
-
-  const month = finished ? config.simulation.months : MONTH_BY_STAGE[step] ?? 1;
-  const visibleEvents = evaluation.events.filter((e) => e.month <= month);
+  }, [step, finished, onDone, paused, pendingEvent, speed]);
 
   return (
     <div className="space-y-4">
@@ -50,18 +58,28 @@ export function FunnelSimulation({ config, evaluation, onDone }: FunnelSimulatio
             Mes {i + 1}
           </span>
         ))}
-        {!finished && <span className="text-sm text-muted">Simulando…</span>}
+        {!finished && (
+          <span className="text-sm text-muted">{pendingEvent ? '⏸ Pausado: lee el evento' : paused ? '⏸ En pausa' : 'Simulando…'}</span>
+        )}
+        <button
+          type="button"
+          data-tour="funnel-speed"
+          onClick={() => setSpeed((s) => (s === 1 ? 2 : 1))}
+          className={`ml-auto rounded-full px-3 py-1 font-display text-sm font-semibold ${speed === 2 ? 'bg-ink text-white' : 'bg-white ring-1 ring-line'}`}
+        >
+          ⏩ x2
+        </button>
       </div>
 
-      <div className="grid gap-3 lg:grid-cols-5">
+      <div className="grid gap-3 lg:grid-cols-5" data-tour="funnel">
         {stages.map((stage, i) => (
           <StageColumn key={stage.phaseId} config={config} stage={stage} index={i} active={i < step} isPost={i === stages.length - 1} evaluation={evaluation} />
         ))}
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-2" data-tour="funnel-events">
         <AnimatePresence>
-          {visibleEvents.map((e) => (
+          {visibleEvents.slice(0, acknowledged).map((e) => (
             <motion.div
               key={e.title}
               initial={{ opacity: 0, x: -12 }}
@@ -71,15 +89,37 @@ export function FunnelSimulation({ config, evaluation, onDone }: FunnelSimulatio
               <span className="text-xl">{e.icon}</span>
               <span>
                 <span className="text-xs font-bold uppercase tracking-wide text-ink/50">Mes {e.month} · Evento</span>
-                <span className="block font-semibold">{e.title}</span>
-                <span className="block text-ink/70">{e.impact}</span>
+                <span className="block font-semibold">
+                  <T>{e.title}</T>
+                </span>
+                <span className="block text-ink/70">
+                  <T>{e.impact}</T>
+                </span>
               </span>
             </motion.div>
           ))}
         </AnimatePresence>
+        {pendingEvent && (
+          <motion.button
+            type="button"
+            key={`pending-${pendingEvent.title}`}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            onClick={() => setAcknowledged((a) => a + 1)}
+            className="flex w-full items-start gap-3 rounded-3xl bg-white p-4 text-left text-sm shadow-float ring-2 ring-sun-strong"
+          >
+            <span className="text-2xl">🔔</span>
+            <span className="flex-1">
+              <span className="text-xs font-bold uppercase tracking-wide text-ink/50">Mes {pendingEvent.month} · Nuevo evento</span>
+              <span className="block font-display text-base font-bold">{pendingEvent.title}</span>
+              <span className="block text-ink/70">{pendingEvent.impact}</span>
+              <span className="mt-2 inline-block rounded-full bg-ink px-3 py-1 font-display text-xs font-semibold text-white">Continuar ▶</span>
+            </span>
+          </motion.button>
+        )}
       </div>
 
-      {finished && (
+      {finished && !pendingEvent && (
         <motion.section initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <Stat label="👥 Clientes nuevos" value={`${evaluation.clients}`} sub={`meta ${config.goalClients}`} good={evaluation.clients >= config.goalClients} />
           <Stat label="🔁 Segundo sprint" value={`${evaluation.secondSprints}`} good={evaluation.secondSprints > 0} />

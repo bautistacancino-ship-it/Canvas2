@@ -6,6 +6,7 @@ import { Blob } from '@/components/ui/Blob';
 import { IconTile } from '@/components/ui/IconTile';
 import { BLOB_COLORS, TONES, toneAt } from '@/lib/tones';
 import type { TheoryCard } from '@/types/game';
+import { T } from '@/components/glossary/Terms';
 
 const BLOB_CYCLE = [BLOB_COLORS.lavender, BLOB_COLORS.yellow, BLOB_COLORS.pink, BLOB_COLORS.sky];
 
@@ -35,15 +36,22 @@ export function FlipCards({ cards, seen, onSeen }: FlipCardsProps) {
         const isFlipped = flipped.has(card.id);
         const tone = card.trap ? 'pink' : toneAt(i);
         return (
-          <motion.button
+          <motion.div
             key={card.id}
-            type="button"
+            role="button"
+            tabIndex={0}
             onClick={() => toggle(card.id)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggle(card.id);
+              }
+            }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.06 }}
             whileHover={{ y: -4 }}
-            className="h-72 text-left"
+            className="h-72 cursor-pointer text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lavender-strong rounded-[28px]"
             style={{ perspective: 1000 }}
             aria-pressed={isFlipped}
           >
@@ -70,7 +78,9 @@ export function FlipCards({ cards, seen, onSeen }: FlipCardsProps) {
                   )}
                 </div>
                 <h3 className="mt-4 font-display text-xl font-bold leading-tight">{card.title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-ink/70">{card.body}</p>
+                <p className="mt-1.5 text-sm leading-relaxed text-ink/70">
+                  <T>{card.body}</T>
+                </p>
                 <span className={`mt-auto font-display text-sm font-semibold ${TONES[tone].text}`}>Ver ejemplo ↻</span>
               </div>
 
@@ -81,7 +91,9 @@ export function FlipCards({ cards, seen, onSeen }: FlipCardsProps) {
                 <span className={`self-start rounded-full px-3 py-1 text-xs font-bold ${TONES[tone].soft} ${TONES[tone].text}`}>
                   {card.trap ? '⚠️ Cuidado' : 'En tu agencia'}
                 </span>
-                <p className="mt-3 pr-8 text-[15px] font-medium leading-relaxed">{card.example}</p>
+                <p className="mt-3 pr-8 text-[15px] font-medium leading-relaxed">
+                  <T>{card.example}</T>
+                </p>
                 {card.tag && (
                   <span className="mt-2 self-start rounded-full bg-surface px-2.5 py-1 text-xs font-semibold text-ink/70">🎯 {card.tag}</span>
                 )}
@@ -94,7 +106,7 @@ export function FlipCards({ cards, seen, onSeen }: FlipCardsProps) {
                 />
               </div>
             </motion.div>
-          </motion.button>
+          </motion.div>
         );
       })}
     </div>

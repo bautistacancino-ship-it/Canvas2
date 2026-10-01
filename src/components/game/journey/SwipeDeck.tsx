@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { cardClass } from '@/components/ui/Card';
 import type { SwipeAnswers } from '@/lib/journey';
 import type { SwipeCard } from '@/types/game';
+import { T } from '@/components/glossary/Terms';
 
 const SWIPE_THRESHOLD = 110;
 
@@ -13,12 +14,14 @@ interface SwipeDeckProps {
   cards: SwipeCard[];
   answers: SwipeAnswers;
   pointsPerSwipe: number;
+  canUndo: boolean;
+  onUndo: (cardId: string) => void;
   onSwipe: (cardId: string, fits: boolean) => void;
   onDone: () => void;
 }
 
 /** Etapa A: 👉 sirve para mi segmento · 👈 no sirve. */
-export function SwipeDeck({ cards, answers, pointsPerSwipe, onSwipe, onDone }: SwipeDeckProps) {
+export function SwipeDeck({ cards, answers, pointsPerSwipe, canUndo, onUndo, onSwipe, onDone }: SwipeDeckProps) {
   const index = cards.findIndex((c) => answers[c.id] === undefined);
   const done = index === -1;
   const current = done ? null : cards[index];
@@ -43,6 +46,18 @@ export function SwipeDeck({ cards, answers, pointsPerSwipe, onSwipe, onDone }: S
 
   const correct = cards.filter((c) => answers[c.id] !== undefined && answers[c.id] === c.fits).length;
 
+  const undoButton = last && (
+    <button
+      type="button"
+      data-tour="swipe-undo"
+      disabled={!canUndo}
+      onClick={() => onUndo(last.id)}
+      className="rounded-full bg-white px-3 py-1.5 font-display text-sm font-semibold shadow-soft ring-1 ring-ink/5 disabled:opacity-40"
+    >
+      ↩️ {canUndo ? 'Deshacer (1)' : 'Deshacer usado'}
+    </button>
+  );
+
   if (done) {
     return (
       <div className="space-y-4">
@@ -60,14 +75,15 @@ export function SwipeDeck({ cards, answers, pointsPerSwipe, onSwipe, onDone }: S
                     {answers[c.id] ? '👉' : '👈'} {c.text} {c.trap && <span className="text-pink-strong">🪤</span>}
                   </p>
                   <p className="mt-0.5 text-xs text-ink/70">
-                    {ok ? '✓' : `✗ Era ${c.fits ? '👉 sirve' : '👈 no sirve'}.`} {c.why}
+                    {ok ? '✓' : `✗ Era ${c.fits ? '👉 sirve' : '👈 no sirve'}.`} <T>{c.why}</T>
                   </p>
                 </li>
               );
             })}
           </ul>
         </section>
-        <div className="flex justify-end">
+        <div className="flex items-center justify-end gap-3">
+          {undoButton}
           <Button variant="gradient" onClick={onDone}>
             Armar el Journey Board →
           </Button>
@@ -87,7 +103,7 @@ export function SwipeDeck({ cards, answers, pointsPerSwipe, onSwipe, onDone }: S
         </span>
       </div>
 
-      <div className="relative h-72">
+      <div className="relative h-72" data-tour="swipe-card">
         {/* Cartas de atrás */}
         {cards.slice(index + 1, index + 3).map((c, i) => (
           <div
@@ -101,7 +117,7 @@ export function SwipeDeck({ cards, answers, pointsPerSwipe, onSwipe, onDone }: S
         </AnimatePresence>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-3" data-tour="swipe-buttons">
         <Button variant="soft" size="lg" onClick={() => swipe(false)}>
           👈 No sirve
         </Button>
@@ -109,7 +125,10 @@ export function SwipeDeck({ cards, answers, pointsPerSwipe, onSwipe, onDone }: S
           Sirve 👉
         </Button>
       </div>
-      <p className="text-center text-xs text-muted">Arrastra la carta o usa las flechas ← → del teclado.</p>
+      <div className="flex items-center justify-center gap-3">
+        <p className="text-center text-xs text-muted">Arrastra la carta o usa las flechas ← → del teclado.</p>
+        {undoButton}
+      </div>
 
       <AnimatePresence mode="popLayout">
         {last && (
@@ -120,7 +139,7 @@ export function SwipeDeck({ cards, answers, pointsPerSwipe, onSwipe, onDone }: S
             exit={{ opacity: 0 }}
             className={`rounded-2xl p-3 text-sm ${answers[last.id] === last.fits ? 'bg-lime' : 'bg-pink'}`}
           >
-            <b>{answers[last.id] === last.fits ? `✓ +${pointsPerSwipe}` : '✗'}</b> «{last.text}»: {last.why}
+            <b>{answers[last.id] === last.fits ? `✓ +${pointsPerSwipe}` : '✗'}</b> «{last.text}»: <T>{last.why}</T>
           </motion.p>
         )}
       </AnimatePresence>
@@ -158,7 +177,9 @@ function TopCard({ card, onSwipe }: { card: SwipeCard; onSwipe: (fits: boolean) 
         👈 NO SIRVE
       </motion.span>
       <span className="text-4xl">📡</span>
-      <p className="mt-3 font-display text-2xl font-bold leading-snug">{card.text}</p>
+      <p className="mt-3 font-display text-2xl font-bold leading-snug">
+        <T>{card.text}</T>
+      </p>
       <p className="mt-2 text-sm text-muted">¿Sirve para tu segmento?</p>
     </motion.div>
   );

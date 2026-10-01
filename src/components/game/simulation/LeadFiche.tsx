@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import type { LeadComputed } from '@/lib/inbox';
 import type { LeadFieldMeta } from '@/types/game';
 import { FIT_META } from './inboxMeta';
+import { T } from '@/components/glossary/Terms';
 
 /** Ficha del lead: se completa solo cuando el jugador hace buenas preguntas. */
 export function LeadFiche({ data, fields, compact = false }: { data: LeadComputed; fields: LeadFieldMeta[]; compact?: boolean }) {
@@ -35,7 +36,7 @@ export function LeadFiche({ data, fields, compact = false }: { data: LeadCompute
                   animate={{ opacity: 1, scale: 1 }}
                   className={`text-sm ${isOpen ? 'font-medium' : 'text-muted/70'}`}
                 >
-                  {isOpen ? lead.fiche[field.id] : '🔒 ???'}
+                  {isOpen ? <T>{lead.fiche[field.id]}</T> : '🔒 ???'}
                 </motion.p>
               </AnimatePresence>
             </li>
@@ -47,7 +48,9 @@ export function LeadFiche({ data, fields, compact = false }: { data: LeadCompute
         {ficheComplete ? (
           <>
             <p className={`font-display text-lg font-bold ${fit.text}`}>{fit.label}</p>
-            <p className="text-xs text-ink/70">{lead.fitNote}</p>
+            <p className="text-xs text-ink/70">
+              <T>{lead.fitNote}</T>
+            </p>
           </>
         ) : (
           <p className="text-sm text-muted">Se revela al completar la ficha.</p>

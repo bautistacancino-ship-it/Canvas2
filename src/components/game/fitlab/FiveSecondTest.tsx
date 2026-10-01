@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import type { FitLabEvaluation, HeroPicks } from '@/lib/fitLab';
 import type { FitLabConfig, HeroSlotId } from '@/types/game';
 import { HeroPreview } from './HeroPreview';
+import { T } from '@/components/glossary/Terms';
 
 const USERS = ['👩', '🧔', '👩‍🦱', '👨‍🦰', '👩‍🦳', '🧑', '👱‍♀️', '👨', '👩‍🦰', '🧑‍🦱'];
 
@@ -14,10 +15,12 @@ interface FiveSecondTestProps {
   evaluation: FitLabEvaluation;
   /** Se llama cuando el test termina (para mostrar el resultado). */
   onDone: () => void;
+  /** Mientras un tutorial está abierto, la cuenta regresiva espera. */
+  paused?: boolean;
 }
 
 /** Etapa C: usuarios simulados miran el hero 5 segundos → mapa de calor, comprensión, CTR y reacciones. */
-export function FiveSecondTest({ config, picks, evaluation, onDone }: FiveSecondTestProps) {
+export function FiveSecondTest({ config, picks, evaluation, onDone, paused = false }: FiveSecondTestProps) {
   const [secondsLeft, setSecondsLeft] = useState(config.testSeconds);
   const running = secondsLeft > 0;
   const bounced = evaluation.outcome === 'collapse';
@@ -29,9 +32,10 @@ export function FiveSecondTest({ config, picks, evaluation, onDone }: FiveSecond
       onDone();
       return;
     }
+    if (paused) return;
     const id = window.setTimeout(() => setSecondsLeft((s) => s - 1), 1000);
     return () => window.clearTimeout(id);
-  }, [secondsLeft, onDone]);
+  }, [secondsLeft, onDone, paused]);
 
   // Mapa de calor: los slots correctos concentran la atención; en un rebote total queda vacío.
   const heat = running
@@ -43,7 +47,7 @@ export function FiveSecondTest({ config, picks, evaluation, onDone }: FiveSecond
 
   return (
     <div className="space-y-4">
-      <div className="relative">
+      <div className="relative" data-tour="hero-preview">
         <HeroPreview config={config} picks={picks} heat={heat} clicks={clicks} />
         <AnimatePresence>
           {running && (
@@ -107,7 +111,9 @@ export function FiveSecondTest({ config, picks, evaluation, onDone }: FiveSecond
                 className="flex items-end gap-2"
               >
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-xl shadow-soft">{users[i % users.length]}</span>
-                <p className="rounded-3xl rounded-bl-lg bg-white px-4 py-2 text-sm shadow-soft">{r}</p>
+                <p className="rounded-3xl rounded-bl-lg bg-white px-4 py-2 text-sm shadow-soft">
+                  <T>{r}</T>
+                </p>
               </motion.div>
             ))}
           </div>

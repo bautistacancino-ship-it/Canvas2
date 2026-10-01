@@ -11,6 +11,7 @@ import { findForbiddenWord } from '@/lib/mediaQuery';
 import { TONES, type Tone } from '@/lib/tones';
 import type { BuildConfig, CanvasEntry, LinesBuildConfig } from '@/types/game';
 import { countWords } from '../shared/FormulaSentence';
+import { T } from '@/components/glossary/Terms';
 
 const MIN_LENGTH = 3;
 const SEPARATOR = ', ';
@@ -52,13 +53,16 @@ export function LinesBuilder({ blockTitle, blockIcon, tone, config, initialValue
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
       <form
+        data-tour="build-form"
         className={`${cardClass} space-y-6 p-5 sm:p-7`}
         onSubmit={(e) => {
           e.preventDefault();
           if (isValid) onSubmit(values);
         }}
       >
-        <p className="text-ink/75">🛠️ {config.intro}</p>
+        <p className="text-ink/75">
+          🛠️ <T>{config.intro}</T>
+        </p>
 
         {reference?.entry && config.reference && (
           <div className="rounded-3xl bg-surface p-4">
@@ -140,17 +144,17 @@ export function LinesBuilder({ blockTitle, blockIcon, tone, config, initialValue
           <p className="flex items-start gap-2 rounded-2xl bg-sky p-3 text-sm">
             <span>🔎</span>
             <span>
-              <b>Revisa:</b> {config.checkNote}
+              <b>Revisa:</b> <T>{config.checkNote}</T>
             </span>
           </p>
         )}
 
-        <div className={`rounded-2xl p-3 text-sm ${firstForbidden ? 'bg-pink' : 'bg-surface'}`}>
+        <div data-tour="build-forbidden" className={`rounded-2xl p-3 text-sm ${firstForbidden ? 'bg-pink' : 'bg-surface'}`}>
           <p className="font-semibold">⛔ Respuestas prohibidas:</p>
           <ul className="mt-1 space-y-0.5">
             {config.forbidden.map((f) => (
               <li key={f.word} className={firstForbidden?.forbidden?.word === f.word ? 'font-semibold text-pink-strong' : 'text-ink/70'}>
-                <span className="rounded-full bg-white px-2 py-0.5 font-display text-xs font-semibold">&ldquo;{f.word}&rdquo;</span> {f.reason}
+                <span className="rounded-full bg-white px-2 py-0.5 font-display text-xs font-semibold">&ldquo;{f.word}&rdquo;</span> <T>{f.reason}</T>
               </li>
             ))}
           </ul>

@@ -8,6 +8,7 @@ import { formatCoins } from '@/lib/scoring';
 import type { ActivityResult, InboxConfig, LeadClass } from '@/types/game';
 import { ActivityOutcomeCard } from '../shared/ActivityOutcomeCard';
 import { CLASS_META, CLASS_ORDER, FIT_META } from './inboxMeta';
+import { T } from '@/components/glossary/Terms';
 
 interface InboxDebriefProps {
   config: InboxConfig;
@@ -31,7 +32,9 @@ export function InboxDebrief({ config, computed, classes, onClassify, onBack, on
         <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-white text-2xl">🎯</span>
         <div>
           <p className="font-display text-lg font-bold">Tu segmento real</p>
-          <p className="text-ink/75">&ldquo;{config.segmentInsight}&rdquo;</p>
+          <p className="text-ink/75">
+            &ldquo;<T>{config.segmentInsight}</T>&rdquo;
+          </p>
         </div>
       </section>
 

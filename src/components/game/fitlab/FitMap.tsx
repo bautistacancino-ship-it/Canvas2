@@ -7,6 +7,7 @@ import { cardClass } from '@/components/ui/Card';
 import type { FitMapState } from '@/lib/fitLab';
 import { shuffle } from '@/lib/scoring';
 import type { FitLabConfig, FitNeedType } from '@/types/game';
+import { T } from '@/components/glossary/Terms';
 
 const NEED_META: Record<FitNeedType, { icon: string; label: string; bg: string }> = {
   dolor: { icon: '😖', label: 'Dolor', bg: 'bg-pink' },
@@ -137,7 +138,7 @@ export function FitMap({ config, state, onChange, onContinue }: FitMapProps) {
         van a la 🗑️ papelera. <b className="text-ink">Cada necesidad tiene un solo intento.</b>
       </p>
 
-      <div ref={containerRef} className="relative grid grid-cols-2 gap-x-8 gap-y-2 sm:gap-x-16">
+      <div ref={containerRef} data-tour="fitmap-board" className="relative grid grid-cols-2 gap-x-8 gap-y-2 sm:gap-x-16">
         <svg className="pointer-events-none absolute inset-0 h-full w-full overflow-visible" aria-hidden>
           {lines.map((l) => {
             const mid = (l.from.x + l.to.x) / 2;
@@ -161,7 +162,7 @@ export function FitMap({ config, state, onChange, onContinue }: FitMapProps) {
         <p className="text-xs font-bold uppercase tracking-wider text-muted">👤 Perfil de {config.clientName}</p>
         <p className="text-xs font-bold uppercase tracking-wider text-muted">🛠️ Servicios de tu agencia</p>
 
-        <div className="space-y-2">
+        <div className="space-y-2" data-tour="fitmap-needs">
           {config.needs.map((need) => {
             const meta = NEED_META[need.type];
             const c = state.connections[need.id];
@@ -226,6 +227,7 @@ export function FitMap({ config, state, onChange, onContinue }: FitMapProps) {
 
       {/* Papelera */}
       <div
+        data-tour="fitmap-trash"
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => {
           e.preventDefault();
@@ -265,7 +267,7 @@ export function FitMap({ config, state, onChange, onContinue }: FitMapProps) {
             exit={{ opacity: 0 }}
             className={`rounded-2xl p-3 text-sm font-medium ${flash.tone === 'good' ? 'bg-lime' : 'bg-pink'}`}
           >
-            {flash.text}
+            <T>{flash.text}</T>
           </motion.p>
         )}
       </AnimatePresence>

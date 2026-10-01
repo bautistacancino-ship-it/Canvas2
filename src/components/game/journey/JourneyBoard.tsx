@@ -23,7 +23,7 @@ export function JourneyBoard({ config, swipes, placed, evaluation, onToggle, onL
 
   return (
     <div className="space-y-4">
-      <section className={`${cardClass} grid gap-4 p-4 sm:grid-cols-2`}>
+      <section data-tour="journey-resources" className={`${cardClass} grid gap-4 p-4 sm:grid-cols-2`}>
         <ResourceBar icon="💰" label="Presupuesto / mes" used={evaluation.coinsUsed} limit={config.resources.coins} format={formatCoins} />
         <ResourceBar icon="⏱️" label="Horas del equipo / mes" used={evaluation.hoursUsed} limit={config.resources.hours} />
       </section>
@@ -33,7 +33,7 @@ export function JourneyBoard({ config, swipes, placed, evaluation, onToggle, onL
         saltarse una fase.
       </p>
 
-      <div className="grid gap-3 lg:grid-cols-5">
+      <div className="grid gap-3 lg:grid-cols-5" data-tour="journey-board">
         {config.phases.map((phase, i) => {
           const phaseCards = cards.filter((c) => c.phaseId === phase.id);
           const inColumn = phaseCards.filter((c) => placed.includes(c.id));

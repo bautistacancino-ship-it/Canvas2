@@ -40,3 +40,13 @@ body {
   background-attachment: fixed;
   color: var(--color-ink);
 }
+
+/* Práctica guiada del tutorial de términos: la primera palabra clickeable late. */
+@keyframes term-coach {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(139 108 255 / 0.55); }
+  50% { box-shadow: 0 0 0 8px rgb(139 108 255 / 0); }
+}
+.term-coach {
+  background: var(--color-lavender);
+  animation: term-coach 1.2s ease-in-out infinite;
+}

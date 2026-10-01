@@ -14,6 +14,8 @@ import { ActivityOutcomeCard } from '../shared/ActivityOutcomeCard';
 import { FitMap } from './FitMap';
 import { FiveSecondTest } from './FiveSecondTest';
 import { HeroBuilder } from './HeroBuilder';
+import { T } from '@/components/glossary/Terms';
+import { TutorialGate } from '@/components/tutorial/TutorialGate';
 
 type Stage = 'intro' | 'map' | 'hero' | 'test';
 
@@ -57,7 +59,9 @@ export function FitLab({ config, onComplete }: FitLabProps) {
         </div>
         <div className="p-6 text-center">
           <h3 className="font-display text-2xl font-bold">{config.title}</h3>
-          <p className="mt-2 text-ink/75">&ldquo;{config.premise}&rdquo;</p>
+          <p className="mt-2 text-ink/75">
+            &ldquo;<T>{config.premise}</T>&rdquo;
+          </p>
           <ol className="mt-4 grid gap-2 text-left text-sm sm:grid-cols-3">
             {[
               ['🧲', 'Mapa de Fit', 'Conecta necesidades con servicios. Las trampas, a la papelera.'],
@@ -111,18 +115,28 @@ export function FitLab({ config, onComplete }: FitLabProps) {
       </section>
 
       <div key={round}>
-        {stage === 'map' && <FitMap config={config} state={map} onChange={setMap} onContinue={() => setStage('hero')} />}
+        {stage === 'map' && (
+          <TutorialGate mechanic="nodos">
+            {() => <FitMap config={config} state={map} onChange={setMap} onContinue={() => setStage('hero')} />}
+          </TutorialGate>
+        )}
         {stage === 'hero' && (
-          <HeroBuilder
-            config={config}
-            picks={hero}
-            onPick={(slot, optionId) => setHero((h) => ({ ...h, [slot]: optionId }))}
-            onPublish={() => setStage('test')}
-          />
+          <TutorialGate mechanic="arrastrar">
+            {() => (
+              <HeroBuilder
+                config={config}
+                picks={hero}
+                onPick={(slot, optionId) => setHero((h) => ({ ...h, [slot]: optionId }))}
+                onPublish={() => setStage('test')}
+              />
+            )}
+          </TutorialGate>
         )}
         {stage === 'test' && (
           <div className="space-y-5">
-            <FiveSecondTest config={config} picks={hero} evaluation={evaluation} onDone={onTestDone} />
+            <TutorialGate mechanic="test5">
+              {(paused) => <FiveSecondTest config={config} picks={hero} evaluation={evaluation} paused={paused} onDone={onTestDone} />}
+            </TutorialGate>
             {testDone && (
               <ActivityOutcomeCard
                 outcome={evaluation.outcome}

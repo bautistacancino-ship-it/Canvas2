@@ -66,6 +66,14 @@ export const BADGES: Record<BadgeId, Badge> = {
   },
   'upgrade-desbloqueado': { id: 'upgrade-desbloqueado', icon: '📈', name: 'Upgrade Desbloqueado', description: 'Valentina contrató un segundo sprint.' },
   'retention-master': { id: 'retention-master', icon: '🎖️', name: 'Retention Master', description: 'Éxito total en el Account Health Monitor.' },
+  'primeras-palabras': { id: 'primeras-palabras', icon: '📘', name: 'Primeras Palabras', description: '10 términos desbloqueados en el Diccionario.' },
+  'bilingue-digital': {
+    id: 'bilingue-digital',
+    icon: '🌐',
+    name: 'Bilingüe Digital',
+    description: 'Todos los términos en inglés de un bloque.',
+  },
+  'diccionario-completo': { id: 'diccionario-completo', icon: '📚', name: 'Diccionario Completo', description: 'Todos los términos del glosario.' },
 };
 
 export const BADGE_LIST = Object.values(BADGES);

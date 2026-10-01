@@ -30,6 +30,7 @@ export function GameHUD() {
                 <Link
                   key={label}
                   href={href}
+                  data-tour={href === '/diccionario' ? 'nav-dictionary' : undefined}
                   className={`rounded-full px-4 py-2 font-display text-sm font-semibold transition ${
                     active ? 'bg-ink text-white' : 'text-muted hover:bg-surface hover:text-ink'
                   }`}

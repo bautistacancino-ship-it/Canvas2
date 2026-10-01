@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { GridIcon, HomeIcon, PlayIcon } from '@/components/ui/icons';
+import { BookIcon, GridIcon, HomeIcon, PlayIcon } from '@/components/ui/icons';
 import { getCurrentLevel, getLevelStatuses } from '@/lib/progress';
 import { useGameStore } from '@/store/useGameStore';
 
@@ -17,5 +17,6 @@ export function useNavItems() {
     { href: '/', label: 'Inicio', Icon: HomeIcon, active: pathname === '/' },
     { href: playHref, label: 'Jugar', Icon: PlayIcon, active: pathname.startsWith('/play') },
     { href: '/canvas', label: 'Mi Canvas', Icon: GridIcon, active: pathname === '/canvas' },
+    { href: '/diccionario', label: 'Diccionario', Icon: BookIcon, active: pathname === '/diccionario' },
   ];
 }

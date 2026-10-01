@@ -13,6 +13,8 @@ import { ActivityOutcomeCard } from '../shared/ActivityOutcomeCard';
 import { FunnelSimulation } from './FunnelSimulation';
 import { JourneyBoard } from './JourneyBoard';
 import { SwipeDeck } from './SwipeDeck';
+import { T } from '@/components/glossary/Terms';
+import { TutorialGate } from '@/components/tutorial/TutorialGate';
 
 type Stage = 'intro' | 'swipe' | 'board' | 'sim';
 
@@ -29,6 +31,8 @@ export function Journey({ config, onComplete }: { config: JourneyConfig; onCompl
   const [swipes, setSwipes] = useState<SwipeAnswers>({});
   const [placed, setPlaced] = useState<string[]>([]);
   const [simDone, setSimDone] = useState(false);
+  /** 1 deshacer por partida en el swipe. */
+  const [undoUsed, setUndoUsed] = useState(false);
 
   const evaluation = useMemo(() => evaluateJourney(config, swipes, placed), [config, swipes, placed]);
   const onSimDone = useCallback(() => setSimDone(true), []);
@@ -37,6 +41,7 @@ export function Journey({ config, onComplete }: { config: JourneyConfig; onCompl
     setSwipes({});
     setPlaced([]);
     setSimDone(false);
+    setUndoUsed(false);
     setStage('swipe');
     setRound((r) => r + 1);
   };
@@ -53,7 +58,9 @@ export function Journey({ config, onComplete }: { config: JourneyConfig; onCompl
         </div>
         <div className="p-6 text-center">
           <h3 className="font-display text-2xl font-bold">{config.title}</h3>
-          <p className="mt-2 text-ink/75">&ldquo;{config.premise}&rdquo;</p>
+          <p className="mt-2 text-ink/75">
+            &ldquo;<T>{config.premise}</T>&rdquo;
+          </p>
           <ol className="mt-4 grid gap-2 text-left text-sm sm:grid-cols-3">
             {[
               ['👆', 'Swipe', `${config.swipeCards.length} cartas: ¿sirven para tu segmento?`],
@@ -96,27 +103,42 @@ export function Journey({ config, onComplete }: { config: JourneyConfig; onCompl
 
       <div key={round}>
         {stage === 'swipe' && (
-          <SwipeDeck
-            cards={config.swipeCards}
-            answers={swipes}
-            pointsPerSwipe={config.rewards.perSwipe}
-            onSwipe={(id, fits) => setSwipes((s) => ({ ...s, [id]: fits }))}
-            onDone={() => setStage('board')}
-          />
+          <TutorialGate mechanic="swipe">
+            {() => (
+              <SwipeDeck
+                cards={config.swipeCards}
+                answers={swipes}
+                pointsPerSwipe={config.rewards.perSwipe}
+                canUndo={!undoUsed}
+                onUndo={(id) => {
+                  setSwipes(({ [id]: _removed, ...rest }) => rest);
+                  setUndoUsed(true);
+                }}
+                onSwipe={(id, fits) => setSwipes((s) => ({ ...s, [id]: fits }))}
+                onDone={() => setStage('board')}
+              />
+            )}
+          </TutorialGate>
         )}
         {stage === 'board' && (
-          <JourneyBoard
-            config={config}
-            swipes={swipes}
-            placed={placed}
-            evaluation={evaluation}
-            onToggle={(id) => setPlaced((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]))}
-            onLaunch={() => setStage('sim')}
-          />
+          <TutorialGate mechanic="recursos">
+            {() => (
+              <JourneyBoard
+                config={config}
+                swipes={swipes}
+                placed={placed}
+                evaluation={evaluation}
+                onToggle={(id) => setPlaced((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]))}
+                onLaunch={() => setStage('sim')}
+              />
+            )}
+          </TutorialGate>
         )}
         {stage === 'sim' && (
           <div className="space-y-5">
-            <FunnelSimulation config={config} evaluation={evaluation} onDone={onSimDone} />
+            <TutorialGate mechanic="simulacion">
+              {(paused) => <FunnelSimulation config={config} evaluation={evaluation} paused={paused} onDone={onSimDone} />}
+            </TutorialGate>
             {simDone && (
               <ActivityOutcomeCard
                 outcome={evaluation.outcome}

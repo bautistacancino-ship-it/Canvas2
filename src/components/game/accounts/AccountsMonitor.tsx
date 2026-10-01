@@ -22,6 +22,8 @@ import { CardHand } from './CardHand';
 import { ClientCard } from './ClientCard';
 import { LeakyBucket } from './LeakyBucket';
 import { MonthReportView } from './MonthReportView';
+import { T } from '@/components/glossary/Terms';
+import { TutorialGate } from '@/components/tutorial/TutorialGate';
 
 type View = 'intro' | 'event' | 'plan' | 'report' | 'final';
 
@@ -64,7 +66,9 @@ export function AccountsMonitor({ config, onComplete }: { config: AccountsConfig
         </div>
         <div className="p-6 text-center">
           <h3 className="font-display text-2xl font-bold">{config.title}</h3>
-          <p className="mt-2 text-ink/75">&ldquo;{config.premise}&rdquo;</p>
+          <p className="mt-2 text-ink/75">
+            &ldquo;<T>{config.premise}</T>&rdquo;
+          </p>
           <div className="mt-4 grid grid-cols-3 gap-2 text-left text-sm">
             {[
               ['⏱️', 'Horas', `${config.hoursPerMonth} al mes (no se acumulan)`],
@@ -90,7 +94,7 @@ export function AccountsMonitor({ config, onComplete }: { config: AccountsConfig
 
   /* ── Barra de estado ── */
   const statusBar = (
-    <section className={`${cardClass} flex flex-wrap items-center gap-x-6 gap-y-2 p-4`}>
+    <section data-tour="accounts-status" className={`${cardClass} flex flex-wrap items-center gap-x-6 gap-y-2 p-4`}>
       <span className="font-display text-xl font-bold">📅 Mes {Math.min(month, config.months)}/{config.months}</span>
       {!done && view === 'plan' && (
         <span className={`font-display font-semibold ${hoursLeft < 0 ? 'text-pink-strong' : ''}`}>
@@ -114,7 +118,7 @@ export function AccountsMonitor({ config, onComplete }: { config: AccountsConfig
         <motion.section key={month} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className={`${cardClass} mx-auto max-w-2xl p-6`}>
           <p className="text-xs font-bold uppercase tracking-widest text-muted">Evento del mes {month}</p>
           <p className="mt-2 font-display text-2xl font-bold">
-            {ctx.event.icon} {ctx.event.text}
+            {ctx.event.icon} <T>{ctx.event.text}</T>
           </p>
           <div className="mt-4 space-y-2">
             {ctx.event.options.map((o, i) => (
@@ -137,7 +141,7 @@ export function AccountsMonitor({ config, onComplete }: { config: AccountsConfig
           {option && (
             <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-4 space-y-3">
               <p className="rounded-2xl bg-sky p-3 text-sm">
-                <b>Resultado:</b> {option.outcome}
+                <b>Resultado:</b> <T>{option.outcome}</T>
                 {option.hours ? ` (cuesta ${option.hours} h este mes)` : ''}
               </p>
               <Button variant="gradient" className="w-full" onClick={() => setView('plan')}>
@@ -158,9 +162,11 @@ export function AccountsMonitor({ config, onComplete }: { config: AccountsConfig
       setSelected(null);
     };
     return (
+      <TutorialGate mechanic="turnos">
+        {() => (
       <div className="space-y-4">
         {statusBar}
-        <div className="grid gap-3 lg:grid-cols-3">
+        <div className="grid gap-3 lg:grid-cols-3" data-tour="accounts-clients">
           {config.clients.map((client) => {
             const assigned = (draft.assignments[client.id] ?? []).map((id) => config.cards.find((c) => c.id === id)!);
             const automatic = config.cards.filter(
@@ -171,6 +177,10 @@ export function AccountsMonitor({ config, onComplete }: { config: AccountsConfig
             const already = selectedCard ? (draft.assignments[client.id] ?? []).includes(selectedCard.id) : false;
             const reason = selectedCard ? ctx.blockedReason(selectedCard, client.id) ?? (already ? 'Ya asignada este mes' : null) : null;
             const tooExpensive = selectedCard ? ctx.cardCost(selectedCard, client.id) > hoursLeft : false;
+            const effect = selectedCard?.effects[client.id] ?? 0;
+            const preview = selectedCard
+              ? `❤️ ${effect > 0 ? '+' : ''}${effect}${selectedCard.billing === 'install' ? ' cada mes' : ''}`
+              : undefined;
             return (
               <ClientCard
                 key={client.id}
@@ -183,6 +193,7 @@ export function AccountsMonitor({ config, onComplete }: { config: AccountsConfig
                 hours={ctx.clientHours[client.id]}
                 costAlert={ctx.costAlert[client.id]}
                 canDrop={Boolean(selectedCard) && !reason && !tooExpensive}
+                dropPreview={preview}
                 dropReason={selectedCard ? reason ?? (tooExpensive ? 'No te alcanzan las horas' : null) : null}
                 onDrop={() => assign(client.id)}
                 onRemove={(cardId) =>
@@ -193,7 +204,7 @@ export function AccountsMonitor({ config, onComplete }: { config: AccountsConfig
           })}
         </div>
 
-        <section>
+        <section data-tour="accounts-hand">
           <p className="mb-2 font-display text-lg font-bold">🃏 Cartas de relación</p>
           <CardHand
             cards={config.cards}
@@ -210,11 +221,13 @@ export function AccountsMonitor({ config, onComplete }: { config: AccountsConfig
 
         <div className="flex flex-wrap items-center justify-end gap-3">
           <span className="text-sm text-muted">Al cerrar el mes se aplican las cartas y el desgaste de cada cliente.</span>
-          <Button variant="gradient" size="lg" disabled={hoursLeft < 0} onClick={closeCurrentMonth}>
+          <Button data-tour="accounts-close" variant="gradient" size="lg" disabled={hoursLeft < 0} onClick={closeCurrentMonth}>
             Cerrar el mes {month} →
           </Button>
         </div>
       </div>
+        )}
+      </TutorialGate>
     );
   }
 

@@ -10,6 +10,7 @@ import { Toggle } from '@/components/ui/Toggle';
 import { SECONDARY_PREFIX, findForbiddenWord, hasSecondary } from '@/lib/mediaQuery';
 import { TONES, type Tone } from '@/lib/tones';
 import type { CanvasEntry, MediaQueryBuildConfig, MediaQueryField } from '@/types/game';
+import { T } from '@/components/glossary/Terms';
 
 const MIN_LENGTH = 3;
 
@@ -62,13 +63,16 @@ export function MediaQueryBuilder({ blockTitle, blockIcon, tone, config, initial
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
       <form
+        data-tour="build-form"
         className={`${cardClass} space-y-5 p-5 sm:p-7`}
         onSubmit={(e) => {
           e.preventDefault();
           if (isValid) onSubmit(output());
         }}
       >
-        <p className="text-ink/75">🛠️ {config.intro}</p>
+        <p className="text-ink/75">
+          🛠️ <T>{config.intro}</T>
+        </p>
 
         <div className="overflow-hidden rounded-3xl bg-ink shadow-float">
           <div className="flex items-center gap-1.5 border-b border-white/10 px-4 py-2.5">
@@ -107,7 +111,7 @@ export function MediaQueryBuilder({ blockTitle, blockIcon, tone, config, initial
           </div>
         )}
 
-        <div className={`rounded-2xl p-3 text-sm ${forbiddenHits.length ? 'bg-pink' : 'bg-surface'}`}>
+        <div data-tour="build-forbidden" className={`rounded-2xl p-3 text-sm ${forbiddenHits.length ? 'bg-pink' : 'bg-surface'}`}>
           <p className="font-semibold">
             ⛔ Palabras prohibidas:{' '}
             {config.forbiddenWords.map((w) => (

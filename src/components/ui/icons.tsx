@@ -23,3 +23,9 @@ export const GridIcon = ({ className = 'h-6 w-6' }: IconProps) => (
     <rect x="13" y="13" width="8" height="8" rx="2.5" />
   </svg>
 );
+
+export const BookIcon = ({ className = 'h-6 w-6' }: IconProps) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden>
+    <path d="M5 3.5A2.5 2.5 0 0 1 7.5 1H19a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H7.5a1 1 0 0 0 0 2H19a1 1 0 1 1 0 2H7.5A2.5 2.5 0 0 1 5 20.5zM9 6a1 1 0 0 0 0 2h6a1 1 0 1 0 0-2z" />
+  </svg>
+);

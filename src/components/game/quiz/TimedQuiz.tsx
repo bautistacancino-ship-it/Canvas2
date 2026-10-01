@@ -10,6 +10,7 @@ import { BLOB_COLORS, TONES, toneAt } from '@/lib/tones';
 import { useGameStore } from '@/store/useGameStore';
 import type { QuizConfig, QuizResult } from '@/types/game';
 import { CircularTimer } from './CircularTimer';
+import { T } from '@/components/glossary/Terms';
 
 const TICK_MS = 100;
 
@@ -19,9 +20,11 @@ interface TimedQuizProps {
   config: QuizConfig;
   /** Se dispara al cerrar la última pregunta con el resumen del intento. */
   onComplete: (result: QuizResult) => void;
+  /** Detiene el reloj (ej. mientras se muestra un tutorial). Abrir un término NO lo detiene. */
+  paused?: boolean;
 }
 
-export function TimedQuiz({ config, onComplete }: TimedQuizProps) {
+export function TimedQuiz({ config, onComplete, paused = false }: TimedQuizProps) {
   const { questions } = config;
   const limitMs = config.timeLimitSec * 1000;
   const fastMs = config.fastWithinSec * 1000;
@@ -43,6 +46,7 @@ export function TimedQuiz({ config, onComplete }: TimedQuizProps) {
   // para que el contador no "derive" si la pestaña se laguea.
   const deadlineRef = useRef(0);
   const answeredRef = useRef(false);
+  const pausedAtRef = useRef<number | null>(null);
 
   const question = questions[index];
   const options = optionOrder[index];
@@ -52,6 +56,15 @@ export function TimedQuiz({ config, onComplete }: TimedQuizProps) {
     deadlineRef.current = performance.now() + limitMs;
     answeredRef.current = false;
   }, [index, limitMs]);
+
+  // Al pausar se congela el reloj; al reanudar, el plazo se corre lo que duró la pausa.
+  useEffect(() => {
+    if (paused) pausedAtRef.current = performance.now();
+    else if (pausedAtRef.current !== null) {
+      deadlineRef.current += performance.now() - pausedAtRef.current;
+      pausedAtRef.current = null;
+    }
+  }, [paused]);
 
   const resolve = useCallback(
     (optionId: string | null) => {
@@ -78,14 +91,14 @@ export function TimedQuiz({ config, onComplete }: TimedQuizProps) {
 
   // Loop del temporizador: corre solo mientras se espera respuesta.
   useEffect(() => {
-    if (feedback) return;
+    if (feedback || paused) return;
     const id = window.setInterval(() => {
       const remaining = Math.max(0, deadlineRef.current - performance.now());
       setTimeLeftMs(remaining);
       if (remaining === 0) resolve(null);
     }, TICK_MS);
     return () => window.clearInterval(id);
-  }, [feedback, resolve]);
+  }, [feedback, paused, resolve]);
 
   const goNext = () => {
     if (isLast) {
@@ -142,7 +155,7 @@ export function TimedQuiz({ config, onComplete }: TimedQuizProps) {
             </div>
           </div>
 
-          <div className="relative shrink-0">
+          <div className="relative shrink-0" data-tour="quiz-timer">
             <CircularTimer timeLeftMs={timeLeftMs} totalMs={limitMs} />
             <AnimatePresence>
               {bonusActive && (
@@ -168,9 +181,11 @@ export function TimedQuiz({ config, onComplete }: TimedQuizProps) {
             transition={{ duration: 0.25 }}
             className="relative"
           >
-            <h3 className="mb-5 font-display text-xl font-bold leading-snug sm:text-2xl">{question.prompt}</h3>
+            <p className="mb-5 font-display text-xl font-bold leading-snug sm:text-2xl">
+              <T>{question.prompt}</T>
+            </p>
 
-            <div className="grid gap-2.5">
+            <div className="grid gap-2.5" data-tour="quiz-options">
               {options.map((option, i) => {
                 const optionCorrect = option.id === question.correctOptionId;
                 const isSelected = option.id === selectedId;
@@ -260,7 +275,9 @@ export function TimedQuiz({ config, onComplete }: TimedQuizProps) {
                 {feedback.kind === 'wrong' && 'Ups, no era esa.'}
                 {feedback.kind === 'timeout' && '⏰ ¡Se acabó el tiempo! 0 pts'}
               </p>
-              <p className="mt-0.5 text-sm text-ink/75">💬 {question.explanation}</p>
+              <p className="mt-0.5 text-sm text-ink/75">
+                💬 <T>{question.explanation}</T>
+              </p>
             </div>
             <Button variant="dark" size="sm" onClick={goNext} autoFocus className="w-full shrink-0 sm:w-auto">
               {isLast ? 'Ver resultado' : 'Siguiente'} →

@@ -1,0 +1,189 @@
+[
+  {
+    "id": "tut-terminos",
+    "mecanica": "terminos",
+    "tipo": "completo",
+    "titulo": "Mini Tutorial · Términos Clickeables",
+    "bloque": "segmentos",
+    "momento": "Al entrar por primera vez a Fase 1, antes de leer El Concepto.",
+    "duracion_seg": 15,
+    "pasos": [
+      "👀 Las palabras con **subrayado punteado** son conceptos clave. Muchas están en inglés, porque así se usan en la industria.",
+      "👆 Tócalas para abrir su ficha: traducción, definición simple y un ejemplo en tu agencia.",
+      "📖 Cada término que abres por primera vez se guarda en tu **Diccionario** y suma **+5 Puntos de Conocimiento**."
+    ],
+    "practica_guiada": "el juego resalta la primera palabra clickeable del texto que sigue. El jugador la toca, lee la ficha y la cierra.",
+    "completado_cuando": "el jugador abre y cierra su primera ficha."
+  },
+  {
+    "id": "tut-quiz",
+    "mecanica": "quiz",
+    "tipo": "completo",
+    "titulo": "Mini Tutorial · Quiz de Urgencia",
+    "bloque": "segmentos",
+    "momento": "Antes de la primera pregunta de Fase 2.",
+    "duracion_seg": 20,
+    "pasos": [
+      "⏱️ Cada pregunta tiene una barra de tiempo de 15 segundos. Si se vacía, la pregunta cuenta como no respondida.",
+      "👆 Toca una opción: tu respuesta queda fija al instante, sin botón de confirmar.",
+      "💬 Lee el feedback: te explica por qué esa decisión funciona o no.",
+      "⚡ Si respondes bien en menos de 7 segundos, ganas puntos extra."
+    ],
+    "practica_guiada": "*\"¿Cuál de estas opciones es un segmento de clientes?\"* A) Todo el mundo · B) Tiendas online de moda que ya venden ✅ · C) Cualquier pyme.",
+    "completado_cuando": "el jugador responde la pregunta de práctica."
+  },
+  {
+    "id": "tut-chat",
+    "mecanica": "chat",
+    "tipo": "completo",
+    "titulo": "Mini Tutorial · Inbox de Leads (simulación de chat)",
+    "bloque": "segmentos",
+    "momento": "Al abrir la Fase 3 (Inbox de Leads), antes del primer chat.",
+    "duracion_seg": 30,
+    "pasos": [
+      "📥 Toca una conversación de la bandeja para abrirla.",
+      "💬 Lee el mensaje del cliente y elige una de las 3 respuestas. Piénsalo bien: **no se puede deshacer**.",
+      "📋 Mira el panel lateral **Ficha del Lead**: se va llenando solo cuando haces buenas preguntas.",
+      "🟢🟡🔴 Al terminar cada chat, toca el color que corresponde para clasificar al cliente."
+    ],
+    "practica_guiada": "un chat de prueba con *\"Pepe, dueño de una cafetería: '¡Hola! ¿Hacen páginas web?'\"*. El jugador elige la respuesta *\"¡Hola, Pepe! ¿Qué te gustaría lograr con tu web?\"* y ve cómo aparece el dato \"Rubro: cafetería\" en la ficha.",
+    "completado_cuando": "el jugador envía una respuesta y ve un dato nuevo en la ficha."
+  },
+  {
+    "id": "tut-reto",
+    "mecanica": "reto",
+    "tipo": "completo",
+    "titulo": "Mini Tutorial · Reto Final",
+    "bloque": "segmentos",
+    "momento": "Al entrar a Fase 4, antes de escribir.",
+    "duracion_seg": 15,
+    "pasos": [
+      "✍️ Toca cada espacio en blanco para escribir. Solo completas los espacios: la estructura ya está hecha.",
+      "🔢 El contador te muestra cuántas palabras te quedan.",
+      "🚫 Si escribes una palabra prohibida, se marca en rojo y no puedes enviar hasta cambiarla.",
+      "💾 Tu respuesta se guarda en tu Canvas personal. Puedes editarla cuando quieras."
+    ],
+    "practica_guiada": null,
+    "completado_cuando": "el jugador toca el primer espacio en blanco."
+  },
+  {
+    "id": "tut-nodos",
+    "mecanica": "nodos",
+    "tipo": "completo",
+    "titulo": "Mini Tutorial · Conectar Nodos",
+    "bloque": "propuesta",
+    "momento": "Al iniciar la Etapa A (Mapa de Fit).",
+    "duracion_seg": 25,
+    "pasos": [
+      "🔵 Cada tarjeta tiene un punto de conexión en el borde. Mantén presionado el punto de una tarjeta del cliente.",
+      "➰ Arrastra la línea hasta el servicio que la resuelve y suelta. Si encaja, la línea se pone verde y el medidor sube.",
+      "✂️ ¿Te equivocaste? Toca la línea para borrarla.",
+      "🗑️ Las tarjetas que no resuelven nada se arrastran a la papelera."
+    ],
+    "practica_guiada": "conectar *\"Dolor: tengo hambre\"* con *\"Servicio: pizza a domicilio\"* y arrastrar *\"Servicio: paraguas para el sol\"* a la papelera.",
+    "completado_cuando": "el jugador hace una conexión y usa la papelera una vez."
+  },
+  {
+    "id": "tut-arrastrar",
+    "mecanica": "arrastrar",
+    "tipo": "completo",
+    "titulo": "Mini Tutorial · Arrastrar y Soltar (Hero Builder)",
+    "bloque": "propuesta",
+    "momento": "Al iniciar la Etapa B (Hero Builder).",
+    "duracion_seg": 20,
+    "pasos": [
+      "🧱 A un lado está el boceto de la página con 5 espacios vacíos. Al otro, los módulos disponibles para cada espacio.",
+      "✋ Arrastra un módulo y suéltalo en su espacio. Cada espacio acepta un solo módulo.",
+      "🔄 Para cambiarlo, arrastra otro módulo encima: el anterior vuelve al panel.",
+      "🚀 Cuando los 5 espacios estén llenos, se activa el botón **Publicar**."
+    ],
+    "practica_guiada": "arrastrar el módulo *\"Titular de prueba\"* al espacio 1 y luego reemplazarlo por otro.",
+    "completado_cuando": "el jugador suelta y reemplaza un módulo."
+  },
+  {
+    "id": "tut-test5",
+    "mecanica": "test5",
+    "tipo": "completo",
+    "titulo": "Mini Tutorial · Test de 5 Segundos",
+    "bloque": "propuesta",
+    "momento": "Al presionar Publicar por primera vez (Etapa C).",
+    "duracion_seg": 15,
+    "pasos": [
+      "👀 Aquí no tienes que tocar nada: observa cómo 10 usuarios simulados miran tu página.",
+      "🔥 En el mapa de colores, el rojo marca dónde miraron más y el azul, dónde casi no miraron.",
+      "💬 Lee las burbujas: te dicen qué entendieron y qué no.",
+      "🔁 Si el resultado no te convence, toca **Volver a editar** (tienes 2 reintentos)."
+    ],
+    "practica_guiada": null,
+    "completado_cuando": "termina la primera reproducción del test."
+  },
+  {
+    "id": "tut-swipe",
+    "mecanica": "swipe",
+    "tipo": "completo",
+    "titulo": "Mini Tutorial · Swipe",
+    "bloque": "canales",
+    "momento": "Al iniciar la Etapa A (Swipe de Canales).",
+    "duracion_seg": 15,
+    "pasos": [
+      "🃏 Aparece una carta a la vez en el centro de la pantalla.",
+      "👉 Desliza a la derecha si el canal sirve para tu segmento. 👈 Desliza a la izquierda si no sirve.",
+      "⌨️ En computador, también puedes usar las flechas del teclado o los botones ✔️ y ✖️.",
+      "↩️ Tienes **1 deshacer** por partida para corregir un error."
+    ],
+    "practica_guiada": "la carta *\"Repartir volantes a pingüinos en la Antártica\"* debe ir a la izquierda.",
+    "completado_cuando": "el jugador desliza la carta de práctica."
+  },
+  {
+    "id": "tut-recursos",
+    "mecanica": "recursos",
+    "tipo": "express",
+    "titulo": "Mini Tutorial Express · Journey Board",
+    "bloque": "canales",
+    "momento": "Al iniciar la Etapa B (Journey Board).",
+    "duracion_seg": 15,
+    "ya_conocido": "Arrastrar y soltar ya lo conoces (Hero Builder, bloque Propuesta de Valor). Aquí solo se explican los elementos nuevos.",
+    "pasos": [
+      "💰⏱️ Arriba hay dos barras de recursos: presupuesto y horas. Cada carta que pones en el tablero descuenta de ellas. Si una barra se pone roja, te pasaste.",
+      "🚫 Una columna vacía muestra un error: necesitas al menos una carta en cada fase.",
+      "👆 Toca una carta del tablero para ver su costo o quitarla."
+    ],
+    "practica_guiada": null,
+    "completado_cuando": "el jugador pone su primera carta y ve bajar las barras."
+  },
+  {
+    "id": "tut-simulacion",
+    "mecanica": "simulacion",
+    "tipo": "completo",
+    "titulo": "Mini Tutorial · Simulación del Embudo",
+    "bloque": "canales",
+    "momento": "Al presionar Lanzar por primera vez (Etapa C).",
+    "duracion_seg": 20,
+    "pasos": [
+      "▶️ Presiona **Lanzar** y observa: cada partícula de luz es un cliente potencial que avanza por tu recorrido.",
+      "🕳️ Las grietas muestran dónde se escapan. Mientras más grande la grieta, más clientes pierdes.",
+      "🔔 Cuando aparece un evento, la simulación se pausa. Tócalo para leerlo y continuar.",
+      "⏩ Puedes acelerar la simulación con el botón **x2**."
+    ],
+    "practica_guiada": null,
+    "completado_cuando": "el jugador cierra el primer evento."
+  },
+  {
+    "id": "tut-turnos",
+    "mecanica": "turnos",
+    "tipo": "express",
+    "titulo": "Mini Tutorial Express · Turnos y Barras de Salud",
+    "bloque": "relacion",
+    "momento": "Al iniciar la Fase 3 (Account Health Monitor), antes del mes 1.",
+    "duracion_seg": 25,
+    "ya_conocido": "Arrastrar cartas (Hero Builder), administrar recursos limitados (Journey Board) y elegir entre 3 respuestas (Inbox de Leads) ya los conoces. Aquí solo se explica lo nuevo.",
+    "pasos": [
+      "📅 El juego avanza por meses. Cada mes recibes 40 horas nuevas, y las que no uses se pierden.",
+      "❤️ Cada cliente tiene una barra de salud que **baja sola** al terminar el mes. Tu trabajo es mantenerla arriba.",
+      "🃏 Al arrastrar una carta sobre un cliente, verás cuánto subirá su barra antes de soltarla.",
+      "⏭️ Cuando termines de repartir, toca **Terminar mes**. Las barras bajan y llega un nuevo evento."
+    ],
+    "practica_guiada": "en un mes de prueba, arrastrar la carta *\"Reunión quincenal\"* sobre Tomás y tocar **Terminar mes**.",
+    "completado_cuando": "el jugador termina el mes de prueba."
+  }
+]

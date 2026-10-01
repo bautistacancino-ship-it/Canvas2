@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
+import { GLOSSARY } from '@/data/glossary';
 import { LEVEL_COMPLETION_POINTS, applyMeterEffects } from '@/lib/scoring';
 import type {
   ActivityResult,
@@ -46,6 +47,10 @@ interface GameData {
   badges: BadgeId[];
   /** Marcas narrativas para eventos futuros (ej. 'nurtured-camila'). */
   flags: string[];
+  /** Términos del glosario abiertos al menos una vez (Diccionario). */
+  terms: string[];
+  /** Mecánicas cuyo mini tutorial ya se mostró (o se saltó). */
+  mechanicsSeen: string[];
   scoreLog: ScoreEvent[];
 }
 
@@ -57,6 +62,9 @@ interface GameActions {
   completeActivity: (blockId: CanvasBlockId, result: ActivityResult) => void;
   saveCanvasDraft: (blockId: CanvasBlockId, entry: CanvasEntry) => void;
   completeLevel: (blockId: CanvasBlockId, entry: CanvasEntry) => void;
+  /** Abre un término: la primera vez lo agrega al Diccionario y suma puntos. */
+  unlockTerm: (termId: string) => void;
+  markMechanicSeen: (mechanic: string) => void;
   resetGame: () => void;
 }
 
@@ -76,8 +84,25 @@ const initialData: GameData = {
   canvas: {},
   badges: [],
   flags: [],
+  terms: [],
+  mechanicsSeen: [],
   scoreLog: [],
 };
+
+export const TERM_POINTS = 5;
+const ENGLISH_TERMS = GLOSSARY.filter((t) => t.tipo === 'Inglés');
+
+/** Insignias del Diccionario que corresponden a una lista de términos desbloqueados. */
+export function dictionaryBadges(terms: string[]): BadgeId[] {
+  const badges: BadgeId[] = [];
+  if (terms.length >= 10) badges.push('primeras-palabras');
+  const blocks = [...new Set(GLOSSARY.flatMap((t) => t.bloques))];
+  if (blocks.some((b) => ENGLISH_TERMS.filter((t) => t.bloques.includes(b)).every((t) => terms.includes(t.id)))) {
+    badges.push('bilingue-digital');
+  }
+  if (GLOSSARY.every((t) => terms.includes(t.id))) badges.push('diccionario-completo');
+  return badges;
+}
 
 const MAX_LOG = 50;
 
@@ -168,11 +193,25 @@ export const useGameStore = create<GameStore>()(
           };
         }),
 
+      unlockTerm: (termId) =>
+        set((s) => {
+          if (s.terms.includes(termId)) return {};
+          const terms = [...s.terms, termId];
+          return {
+            ...withPoints(s, TERM_POINTS, `Término · ${termId}`),
+            terms,
+            badges: union(s.badges, dictionaryBadges(terms)),
+          };
+        }),
+
+      markMechanicSeen: (mechanic) =>
+        set((s) => (s.mechanicsSeen.includes(mechanic) ? {} : { mechanicsSeen: [...s.mechanicsSeen, mechanic] })),
+
       resetGame: () => set({ ...initialData }),
     }),
     {
       name: STORAGE_KEY,
-      version: 3,
+      version: 4,
       storage: createJSONStorage(() => localStorage),
       // Rehidratamos manualmente desde <StoreHydrator/> para evitar
       // mismatches entre el HTML del servidor y el estado del cliente.
@@ -201,11 +240,13 @@ export const useGameStore = create<GameStore>()(
               return [id, { ...rest, activity }];
             }),
           );
-          return { ...(old as GameData), progress } as GameStore;
+          return { ...(old as GameData), progress, terms: [], mechanicsSeen: [] } as unknown as GameStore;
         }
+        // v4: Diccionario y mini tutoriales.
+        if (version < 4) return { ...(old as GameData), terms: [], mechanicsSeen: [] } as unknown as GameStore;
         return persisted as GameStore;
       },
-      partialize: ({ profile, score, streak, bestStreak, meters, progress, canvas, badges, flags, scoreLog }) => ({
+      partialize: ({ profile, score, streak, bestStreak, meters, progress, canvas, badges, flags, terms, mechanicsSeen, scoreLog }) => ({
         profile,
         score,
         streak,
@@ -215,6 +256,8 @@ export const useGameStore = create<GameStore>()(
         canvas,
         badges,
         flags,
+        terms,
+        mechanicsSeen,
         scoreLog,
       }),
       onRehydrateStorage: () => () => {

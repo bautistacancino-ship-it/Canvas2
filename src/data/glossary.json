@@ -1,0 +1,800 @@
+[
+  {
+    "id": "404",
+    "termino": "Error 404",
+    "tipo": "Inglés",
+    "traduccion": "página no encontrada",
+    "definicion": "Mensaje que aparece cuando un enlace lleva a una página que no existe. En el juego, es una fase rota del recorrido.",
+    "ejemplo": "Si no tienes canal de compra, el cliente choca con un 404.",
+    "bloques": [
+      "canales"
+    ]
+  },
+  {
+    "id": "above-the-fold",
+    "termino": "Above the fold",
+    "tipo": "Inglés",
+    "traduccion": "sobre el pliegue",
+    "definicion": "Lo que se ve de una web apenas carga, sin hacer scroll.",
+    "ejemplo": "El titular y el botón principal deben estar above the fold.",
+    "bloques": [
+      "propuesta"
+    ]
+  },
+  {
+    "id": "account-manager",
+    "termino": "Account manager",
+    "tipo": "Inglés",
+    "traduccion": "ejecutivo de cuenta",
+    "definicion": "Persona responsable de la relación con un cliente específico.",
+    "ejemplo": "Valentina tiene un account manager que conoce su negocio a fondo.",
+    "bloques": [
+      "relacion"
+    ]
+  },
+  {
+    "id": "ads",
+    "termino": "Ads",
+    "tipo": "Inglés",
+    "traduccion": "anuncios pagados",
+    "definicion": "Publicidad pagada en plataformas como Google, Instagram o Facebook.",
+    "ejemplo": "Tomás invierte en ads, pero su web convierte poco.",
+    "bloques": [
+      "segmentos",
+      "propuesta",
+      "canales"
+    ]
+  },
+  {
+    "id": "aliviadores",
+    "termino": "Aliviadores de Dolor",
+    "tipo": "Concepto Canvas",
+    "traduccion": null,
+    "definicion": "Lo que tu servicio hace para eliminar o reducir un problema del cliente.",
+    "ejemplo": "El rediseño del checkout alivia el abandono del carrito.",
+    "bloques": [
+      "propuesta"
+    ]
+  },
+  {
+    "id": "b2b",
+    "termino": "B2B",
+    "tipo": "Inglés",
+    "traduccion": "de empresa a empresa (business to business)",
+    "definicion": "Negocio cuyos clientes son otras empresas, no personas.",
+    "ejemplo": "Tu agencia es B2B: le vendes a marcas, no a consumidores.",
+    "bloques": [
+      "segmentos"
+    ]
+  },
+  {
+    "id": "breakpoint",
+    "termino": "Breakpoint",
+    "tipo": "Inglés",
+    "traduccion": "punto de quiebre",
+    "definicion": "Ancho de pantalla en el que el diseño de una web cambia de distribución.",
+    "ejemplo": "A los 768 px, el menú de la tienda de Valentina se convierte en un ícono de hamburguesa.",
+    "bloques": [
+      "segmentos"
+    ]
+  },
+  {
+    "id": "burnout",
+    "termino": "Burnout",
+    "tipo": "Inglés",
+    "traduccion": "agotamiento laboral",
+    "definicion": "Desgaste extremo, físico y mental, por exceso de trabajo.",
+    "ejemplo": "Responder WhatsApp a toda hora lleva a tu equipo al burnout.",
+    "bloques": [
+      "relacion"
+    ]
+  },
+  {
+    "id": "buyer-persona",
+    "termino": "Buyer persona",
+    "tipo": "Inglés",
+    "traduccion": "perfil del comprador",
+    "definicion": "Personaje ficticio, basado en datos reales, que representa a tu cliente ideal.",
+    "ejemplo": "\"Valentina, 34 años, fundadora de una marca de cosmética que vende en Shopify\".",
+    "bloques": [
+      "segmentos"
+    ]
+  },
+  {
+    "id": "canales",
+    "termino": "Canales",
+    "tipo": "Concepto Canvas",
+    "traduccion": null,
+    "definicion": "Las rutas por las que llegas a tu cliente: cómo te conoce, te evalúa, te compra, recibe tu trabajo y vuelve.",
+    "ejemplo": "LinkedIn, auditoría gratuita, propuesta digital, dashboard y reunión de resultados.",
+    "bloques": [
+      "propuesta",
+      "canales"
+    ]
+  },
+  {
+    "id": "canvas",
+    "termino": "Canvas",
+    "tipo": "Concepto Canvas",
+    "traduccion": "lienzo",
+    "definicion": "Herramienta de 9 bloques para diseñar un modelo de negocio en una sola página.",
+    "ejemplo": "Cada nivel del juego completa uno de los bloques de tu Canvas.",
+    "bloques": [
+      "segmentos"
+    ]
+  },
+  {
+    "id": "checklist",
+    "termino": "Checklist",
+    "tipo": "Inglés",
+    "traduccion": "lista de verificación",
+    "definicion": "Lista de tareas o elementos que hay que revisar uno por uno.",
+    "ejemplo": "Checklist de accesos: Shopify, Google Analytics y la cuenta de anuncios.",
+    "bloques": [
+      "relacion"
+    ]
+  },
+  {
+    "id": "checkout",
+    "termino": "Checkout",
+    "tipo": "Inglés",
+    "traduccion": "proceso de pago",
+    "definicion": "Los pasos finales de una compra online: carrito, datos y pago.",
+    "ejemplo": "El 78% de los clientes de Valentina abandonaba en el checkout.",
+    "bloques": [
+      "segmentos",
+      "propuesta",
+      "canales"
+    ]
+  },
+  {
+    "id": "churn",
+    "termino": "Churn",
+    "tipo": "Métrica",
+    "traduccion": "tasa de abandono",
+    "definicion": "Porcentaje de clientes que dejan de contratarte en un periodo.",
+    "ejemplo": "Si tenías 10 clientes y se fueron 2 en el año, tu churn fue del 20%.",
+    "bloques": [
+      "relacion"
+    ]
+  },
+  {
+    "id": "cocreacion",
+    "termino": "Co-creación",
+    "tipo": "Concepto Canvas",
+    "traduccion": null,
+    "definicion": "Tipo de relación en que el cliente participa contigo en crear el valor.",
+    "ejemplo": "Definir juntos los experimentos del próximo sprint.",
+    "bloques": [
+      "relacion"
+    ]
+  },
+  {
+    "id": "conversion",
+    "termino": "Tasa de conversión",
+    "tipo": "Métrica",
+    "traduccion": null,
+    "definicion": "Porcentaje de visitantes que hacen la acción deseada.",
+    "ejemplo": "100 visitas y 2 compras = 2% de conversión.",
+    "bloques": [
+      "segmentos",
+      "propuesta",
+      "canales",
+      "relacion"
+    ]
+  },
+  {
+    "id": "creadores",
+    "termino": "Creadores de Alegría",
+    "tipo": "Concepto Canvas",
+    "traduccion": null,
+    "definicion": "Lo que tu servicio hace para entregar un beneficio que el cliente desea.",
+    "ejemplo": "Emails automáticos que venden mientras Valentina duerme.",
+    "bloques": [
+      "propuesta"
+    ]
+  },
+  {
+    "id": "cro",
+    "termino": "CRO",
+    "tipo": "Inglés",
+    "traduccion": "optimización de la tasa de conversión",
+    "definicion": "Mejorar una web para que más visitantes hagan la acción deseada, como comprar o agendar.",
+    "ejemplo": "Simplificar el checkout de Valentina es un trabajo de CRO.",
+    "bloques": [
+      "segmentos"
+    ]
+  },
+  {
+    "id": "css",
+    "termino": "CSS",
+    "tipo": "Inglés",
+    "traduccion": "hojas de estilo en cascada",
+    "definicion": "Lenguaje que define cómo se ve una web: colores, tamaños, tipografías y distribución.",
+    "ejemplo": "Cambiar el color del botón de compra se hace con CSS.",
+    "bloques": [
+      "segmentos"
+    ]
+  },
+  {
+    "id": "cta",
+    "termino": "CTA",
+    "tipo": "Inglés",
+    "traduccion": "llamado a la acción (call to action)",
+    "definicion": "Botón o frase que invita al usuario a hacer algo concreto.",
+    "ejemplo": "\"Agenda tu auditoría gratis\" es un CTA; \"Contáctanos\" es uno débil.",
+    "bloques": [
+      "propuesta"
+    ]
+  },
+  {
+    "id": "ctr",
+    "termino": "CTR",
+    "tipo": "Métrica",
+    "traduccion": "tasa de clics (click-through rate)",
+    "definicion": "Porcentaje de personas que hacen clic después de ver algo.",
+    "ejemplo": "Si 100 personas ven tu anuncio y 4 hacen clic, el CTR es 4%.",
+    "bloques": [
+      "propuesta"
+    ]
+  },
+  {
+    "id": "cyber",
+    "termino": "Cyber",
+    "tipo": "Inglés",
+    "traduccion": "Cyber Day",
+    "definicion": "Evento de grandes descuentos online, uno de los momentos de más ventas para un ecommerce.",
+    "ejemplo": "Valentina necesita una landing especial para el Cyber.",
+    "bloques": [
+      "relacion"
+    ]
+  },
+  {
+    "id": "dashboard",
+    "termino": "Dashboard",
+    "tipo": "Inglés",
+    "traduccion": "panel de control",
+    "definicion": "Pantalla que muestra las métricas importantes de un vistazo.",
+    "ejemplo": "Valentina revisa su conversión en un dashboard compartido.",
+    "bloques": [
+      "propuesta",
+      "canales",
+      "relacion"
+    ]
+  },
+  {
+    "id": "design-system",
+    "termino": "Design system",
+    "tipo": "Inglés",
+    "traduccion": "sistema de diseño",
+    "definicion": "Conjunto de colores, tipografías y componentes reutilizables que mantiene un diseño coherente.",
+    "ejemplo": "Un design system hace que todas las páginas de la tienda se vean de la misma marca.",
+    "bloques": [
+      "propuesta"
+    ]
+  },
+  {
+    "id": "dribbble",
+    "termino": "Dribbble / Behance",
+    "tipo": "Herramienta",
+    "traduccion": null,
+    "definicion": "Plataformas donde los diseñadores muestran su portafolio.",
+    "ejemplo": "Ahí te ven otros diseñadores, pero rara vez tus clientes.",
+    "bloques": [
+      "canales"
+    ]
+  },
+  {
+    "id": "ecommerce",
+    "termino": "Ecommerce",
+    "tipo": "Inglés",
+    "traduccion": "comercio electrónico",
+    "definicion": "Negocio que vende sus productos por internet.",
+    "ejemplo": "Una marca de ropa con tienda online es un ecommerce.",
+    "bloques": [
+      "segmentos",
+      "propuesta",
+      "canales",
+      "relacion"
+    ]
+  },
+  {
+    "id": "email-automation",
+    "termino": "Email automation",
+    "tipo": "Inglés",
+    "traduccion": "automatización de correos",
+    "definicion": "Correos que se envían solos según lo que hace cada cliente.",
+    "ejemplo": "Un correo automático a quien dejó productos en el carrito sin pagar.",
+    "bloques": [
+      "segmentos"
+    ]
+  },
+  {
+    "id": "fee",
+    "termino": "Fee",
+    "tipo": "Inglés",
+    "traduccion": "honorario o tarifa",
+    "definicion": "Monto que cobras por tu servicio. Un \"fee mensual\" es una tarifa fija cada mes.",
+    "ejemplo": "El fee mensual de Camila es más bajo porque tiene el plan Starter.",
+    "bloques": [
+      "segmentos",
+      "propuesta",
+      "relacion"
+    ]
+  },
+  {
+    "id": "figma",
+    "termino": "Figma",
+    "tipo": "Herramienta",
+    "traduccion": null,
+    "definicion": "Herramienta colaborativa para diseñar interfaces y prototipos.",
+    "ejemplo": "Diseñas el wireframe del hero en Figma.",
+    "bloques": [
+      "segmentos",
+      "propuesta",
+      "canales"
+    ]
+  },
+  {
+    "id": "fit",
+    "termino": "Fit",
+    "tipo": "Inglés",
+    "traduccion": "encaje",
+    "definicion": "Cuando lo que ofreces resuelve exactamente lo que tu cliente necesita.",
+    "ejemplo": "El rediseño del checkout tiene Fit con el dolor \"abandonan el carrito\".",
+    "bloques": [
+      "propuesta"
+    ]
+  },
+  {
+    "id": "flujo-caja",
+    "termino": "Flujo de caja",
+    "tipo": "Métrica",
+    "traduccion": "cash flow",
+    "definicion": "El dinero que entra y sale de tu negocio a lo largo del tiempo.",
+    "ejemplo": "Un cliente que paga a 120 días puede dejarte sin flujo de caja para pagar sueldos.",
+    "bloques": [
+      "segmentos"
+    ]
+  },
+  {
+    "id": "fuentes",
+    "termino": "Fuentes de Ingreso",
+    "tipo": "Concepto Canvas",
+    "traduccion": null,
+    "definicion": "Las formas en que tu negocio cobra por el valor que entrega.",
+    "ejemplo": "Fee mensual, proyectos únicos y ventas adicionales.",
+    "bloques": [
+      "relacion"
+    ]
+  },
+  {
+    "id": "heatmap",
+    "termino": "Mapa de calor",
+    "tipo": "Métrica",
+    "traduccion": "heatmap",
+    "definicion": "Imagen que muestra con colores dónde miran o hacen clic los usuarios.",
+    "ejemplo": "El rojo sobre el botón indica que mucha gente lo vio.",
+    "bloques": [
+      "propuesta"
+    ]
+  },
+  {
+    "id": "hero",
+    "termino": "Hero section",
+    "tipo": "Inglés",
+    "traduccion": "sección principal",
+    "definicion": "El primer bloque grande de una landing: titular, subtítulo, imagen y botón.",
+    "ejemplo": "El hero de tu agencia debe decir en 5 segundos qué gana el cliente.",
+    "bloques": [
+      "propuesta"
+    ]
+  },
+  {
+    "id": "inbound",
+    "termino": "Inbound",
+    "tipo": "Inglés",
+    "traduccion": "entrante",
+    "definicion": "Estrategia en que el cliente te encuentra a ti, gracias a contenido útil.",
+    "ejemplo": "Un lead que llega desde tu newsletter es inbound.",
+    "bloques": [
+      "canales"
+    ]
+  },
+  {
+    "id": "kickoff",
+    "termino": "Kickoff",
+    "tipo": "Inglés",
+    "traduccion": "reunión de inicio",
+    "definicion": "Primera reunión de un proyecto para acordar metas, plazos y responsables.",
+    "ejemplo": "En el kickoff con Tomás definen la meta de conversión.",
+    "bloques": [
+      "relacion"
+    ]
+  },
+  {
+    "id": "kpi",
+    "termino": "KPI",
+    "tipo": "Inglés",
+    "traduccion": "indicador clave de desempeño",
+    "definicion": "Número que muestra si vas bien encaminado hacia tu meta.",
+    "ejemplo": "La tasa de conversión es el KPI principal del plan Growth.",
+    "bloques": [
+      "segmentos"
+    ]
+  },
+  {
+    "id": "landing",
+    "termino": "Landing page",
+    "tipo": "Inglés",
+    "traduccion": "página de aterrizaje",
+    "definicion": "Página web diseñada para un solo objetivo, como agendar una reunión o comprar.",
+    "ejemplo": "La landing de tu agencia tiene un solo botón: agendar la auditoría.",
+    "bloques": [
+      "segmentos",
+      "propuesta",
+      "relacion"
+    ]
+  },
+  {
+    "id": "lead",
+    "termino": "Lead",
+    "tipo": "Inglés",
+    "traduccion": "cliente potencial o prospecto",
+    "definicion": "Persona o empresa que mostró interés en tu servicio, pero todavía no compra.",
+    "ejemplo": "Rodrigo escribió por la licitación: era un lead, pero no encajaba.",
+    "bloques": [
+      "segmentos",
+      "propuesta",
+      "canales"
+    ]
+  },
+  {
+    "id": "masas",
+    "termino": "Mercado de Masas",
+    "tipo": "Concepto Canvas",
+    "traduccion": null,
+    "definicion": "Una oferta estándar para un público enorme con necesidades parecidas.",
+    "ejemplo": "Plantillas vendidas a cualquier emprendedor en un marketplace.",
+    "bloques": [
+      "segmentos"
+    ]
+  },
+  {
+    "id": "media-query",
+    "termino": "Media query",
+    "tipo": "Inglés",
+    "traduccion": "consulta de medio",
+    "definicion": "Regla de CSS que aplica estilos solo cuando se cumple una condición, como el ancho de la pantalla.",
+    "ejemplo": "En este juego la usamos como metáfora: tu media query describe a qué cliente le hablas.",
+    "bloques": [
+      "segmentos",
+      "propuesta",
+      "canales",
+      "relacion"
+    ]
+  },
+  {
+    "id": "mockup",
+    "termino": "Mockup",
+    "tipo": "Inglés",
+    "traduccion": "maqueta visual",
+    "definicion": "Representación realista de cómo se verá un diseño terminado.",
+    "ejemplo": "Un mockup del dashboard con la conversión subiendo.",
+    "bloques": [
+      "segmentos",
+      "propuesta"
+    ]
+  },
+  {
+    "id": "multilateral",
+    "termino": "Plataforma Multilateral",
+    "tipo": "Concepto Canvas",
+    "traduccion": null,
+    "definicion": "Modelo con dos o más segmentos que se necesitan entre sí.",
+    "ejemplo": "Un newsletter: los lectores atraen anunciantes, y los anunciantes lo financian.",
+    "bloques": [
+      "segmentos"
+    ]
+  },
+  {
+    "id": "newsletter",
+    "termino": "Newsletter",
+    "tipo": "Inglés",
+    "traduccion": "boletín por correo",
+    "definicion": "Correo periódico con contenido útil que envías a tus suscriptores.",
+    "ejemplo": "\"Ecommerce de moda que vende\", cada dos semanas.",
+    "bloques": [
+      "segmentos",
+      "canales"
+    ]
+  },
+  {
+    "id": "nicho",
+    "termino": "Nicho",
+    "tipo": "Concepto Canvas",
+    "traduccion": null,
+    "definicion": "Grupo muy específico de clientes con un dolor muy concreto.",
+    "ejemplo": "Webs y anuncios solo para clínicas veterinarias.",
+    "bloques": [
+      "segmentos",
+      "propuesta"
+    ]
+  },
+  {
+    "id": "onboarding",
+    "termino": "Onboarding",
+    "tipo": "Inglés",
+    "traduccion": "incorporación",
+    "definicion": "Proceso para recibir a un cliente nuevo y que empiece con el pie derecho.",
+    "ejemplo": "Kickoff, accesos y metas en la primera semana de Tomás.",
+    "bloques": [
+      "relacion"
+    ]
+  },
+  {
+    "id": "outbound",
+    "termino": "Outbound",
+    "tipo": "Inglés",
+    "traduccion": "saliente",
+    "definicion": "Estrategia en que tú contactas primero al cliente.",
+    "ejemplo": "Escribirle a 10 tiendas con una mini auditoría de su checkout.",
+    "bloques": [
+      "canales"
+    ]
+  },
+  {
+    "id": "parallax",
+    "termino": "Parallax",
+    "tipo": "Inglés",
+    "traduccion": "efecto de paralaje",
+    "definicion": "Efecto en que las capas de una página se mueven a distinta velocidad al hacer scroll.",
+    "ejemplo": "Se ve bonito, pero no resuelve ningún dolor de Valentina.",
+    "bloques": [
+      "propuesta"
+    ]
+  },
+  {
+    "id": "partner",
+    "termino": "Partner",
+    "tipo": "Inglés",
+    "traduccion": "socio o aliado",
+    "definicion": "Empresa aliada que recomienda tus servicios a sus propios clientes.",
+    "ejemplo": "Una app de email para Shopify que te refiere clientes.",
+    "bloques": [
+      "segmentos",
+      "canales"
+    ]
+  },
+  {
+    "id": "pipeline",
+    "termino": "Pipeline",
+    "tipo": "Inglés",
+    "traduccion": "embudo o cartera de ventas",
+    "definicion": "Lista de leads organizados según qué tan cerca están de comprar.",
+    "ejemplo": "Tu pipeline tiene 3 leads: uno ideal, uno por nutrir y uno descartado.",
+    "bloques": [
+      "segmentos"
+    ]
+  },
+  {
+    "id": "pop-up",
+    "termino": "Pop-up",
+    "tipo": "Inglés",
+    "traduccion": "ventana emergente",
+    "definicion": "Ventana que aparece de repente sobre una página web.",
+    "ejemplo": "Un pop-up con descuento apenas entras al sitio.",
+    "bloques": [
+      "canales"
+    ]
+  },
+  {
+    "id": "propuesta",
+    "termino": "Propuesta de Valor",
+    "tipo": "Concepto Canvas",
+    "traduccion": null,
+    "definicion": "El conjunto de beneficios que hace que tu segmento te elija a ti y no a otro.",
+    "ejemplo": "Más ventas con el tráfico que ya pagas.",
+    "bloques": [
+      "segmentos",
+      "propuesta",
+      "canales"
+    ]
+  },
+  {
+    "id": "relacion",
+    "termino": "Relación con Clientes",
+    "tipo": "Concepto Canvas",
+    "traduccion": null,
+    "definicion": "El tipo de vínculo que construyes con cada segmento para conseguirlo, mantenerlo y hacerlo crecer.",
+    "ejemplo": "Account manager para Valentina; tutoriales y comunidad para Camila.",
+    "bloques": [
+      "canales",
+      "relacion"
+    ]
+  },
+  {
+    "id": "responsive",
+    "termino": "Responsive",
+    "tipo": "Inglés",
+    "traduccion": "adaptable",
+    "definicion": "Diseño que se ajusta automáticamente a cualquier tamaño de pantalla.",
+    "ejemplo": "La tienda se ve bien en el celular y en el computador porque es responsive.",
+    "bloques": [
+      "segmentos",
+      "propuesta"
+    ]
+  },
+  {
+    "id": "retainer",
+    "termino": "Retainer",
+    "tipo": "Inglés",
+    "traduccion": "iguala o contrato mensual",
+    "definicion": "Contrato en el que el cliente paga un monto fijo cada mes por un servicio continuo.",
+    "ejemplo": "Valentina paga un retainer mensual por el plan Growth.",
+    "bloques": [
+      "segmentos"
+    ]
+  },
+  {
+    "id": "segmentos",
+    "termino": "Segmentos de Clientes",
+    "tipo": "Concepto Canvas",
+    "traduccion": null,
+    "definicion": "Los grupos específicos de personas u organizaciones para los que existe tu negocio.",
+    "ejemplo": "Ecommerce de moda y belleza que ya venden online.",
+    "bloques": [
+      "segmentos"
+    ]
+  },
+  {
+    "id": "seo",
+    "termino": "SEO",
+    "tipo": "Inglés",
+    "traduccion": "optimización para buscadores",
+    "definicion": "Técnicas para aparecer más arriba en Google sin pagar anuncios.",
+    "ejemplo": "Un artículo del blog que aparece cuando alguien busca \"cómo vender más en mi tienda online\".",
+    "bloques": [
+      "segmentos",
+      "propuesta",
+      "canales"
+    ]
+  },
+  {
+    "id": "seo-local",
+    "termino": "SEO local",
+    "tipo": "Inglés",
+    "traduccion": "posicionamiento local en buscadores",
+    "definicion": "Técnicas para aparecer en Google cuando alguien busca un servicio cerca de donde está.",
+    "ejemplo": "Que una veterinaria aparezca al buscar \"veterinaria cerca de mí\".",
+    "bloques": [
+      "segmentos"
+    ]
+  },
+  {
+    "id": "shopify",
+    "termino": "Shopify",
+    "tipo": "Herramienta",
+    "traduccion": null,
+    "definicion": "Plataforma para crear y administrar tiendas online sin programarlas desde cero.",
+    "ejemplo": "Valentina, Tomás y Camila venden en Shopify.",
+    "bloques": [
+      "segmentos",
+      "propuesta",
+      "canales",
+      "relacion"
+    ]
+  },
+  {
+    "id": "sprint",
+    "termino": "Sprint",
+    "tipo": "Inglés",
+    "traduccion": "ciclo de trabajo",
+    "definicion": "Periodo corto de trabajo, de 1 a 4 semanas, con metas concretas.",
+    "ejemplo": "El plan Growth trabaja en sprints de optimización.",
+    "bloques": [
+      "propuesta",
+      "canales",
+      "relacion"
+    ]
+  },
+  {
+    "id": "swipe",
+    "termino": "Swipe",
+    "tipo": "Inglés",
+    "traduccion": "deslizar",
+    "definicion": "Gesto de deslizar el dedo para aprobar o descartar algo.",
+    "ejemplo": "Swipe a la derecha: el canal sirve. A la izquierda: no sirve.",
+    "bloques": [
+      "canales"
+    ]
+  },
+  {
+    "id": "ticket",
+    "termino": "Ticket promedio",
+    "tipo": "Métrica",
+    "traduccion": null,
+    "definicion": "Lo que gasta, en promedio, cada cliente en una compra.",
+    "ejemplo": "Si 10 clientes gastan 500 en total, el ticket promedio es 50.",
+    "bloques": [
+      "segmentos"
+    ]
+  },
+  {
+    "id": "upgrade",
+    "termino": "Upgrade",
+    "tipo": "Inglés",
+    "traduccion": "mejora de plan",
+    "definicion": "Cuando un cliente se cambia a un plan superior.",
+    "ejemplo": "Camila pasa del plan Starter al plan Growth.",
+    "bloques": [
+      "relacion"
+    ]
+  },
+  {
+    "id": "user-flow",
+    "termino": "User flow",
+    "tipo": "Inglés",
+    "traduccion": "flujo del usuario",
+    "definicion": "El recorrido paso a paso que hace una persona para lograr un objetivo.",
+    "ejemplo": "Descubrirte → evaluarte → contratarte → recibir tu trabajo → volver.",
+    "bloques": [
+      "canales"
+    ]
+  },
+  {
+    "id": "webflow",
+    "termino": "Webflow",
+    "tipo": "Herramienta",
+    "traduccion": null,
+    "definicion": "Herramienta para construir sitios web visualmente, sin programar.",
+    "ejemplo": "Una agencia puede publicar su landing con Webflow.",
+    "bloques": [
+      "propuesta"
+    ]
+  },
+  {
+    "id": "white-label",
+    "termino": "White-label",
+    "tipo": "Inglés",
+    "traduccion": "marca blanca",
+    "definicion": "Haces el trabajo, pero otra agencia lo entrega con su propia marca.",
+    "ejemplo": "Una agencia grande te subcontrata el desarrollo y lo presenta como suyo.",
+    "bloques": [
+      "canales"
+    ]
+  },
+  {
+    "id": "wireframe",
+    "termino": "Wireframe",
+    "tipo": "Inglés",
+    "traduccion": "esquema de página",
+    "definicion": "Boceto simple de la estructura de una página, sin colores ni diseño final.",
+    "ejemplo": "Antes de diseñar el hero, armas el wireframe con 5 espacios.",
+    "bloques": [
+      "propuesta"
+    ]
+  },
+  {
+    "id": "wordpress",
+    "termino": "WordPress",
+    "tipo": "Herramienta",
+    "traduccion": null,
+    "definicion": "Plataforma muy usada para crear sitios web y blogs.",
+    "ejemplo": "Muchas agencias venden plantillas de WordPress.",
+    "bloques": [
+      "segmentos"
+    ]
+  },
+  {
+    "id": "workshop",
+    "termino": "Workshop",
+    "tipo": "Inglés",
+    "traduccion": "taller",
+    "definicion": "Sesión práctica de trabajo en conjunto con el cliente.",
+    "ejemplo": "Un workshop para definir los experimentos del próximo sprint.",
+    "bloques": [
+      "relacion"
+    ]
+  }
+]

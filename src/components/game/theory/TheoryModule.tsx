@@ -10,6 +10,7 @@ import { FlipCards } from './FlipCards';
 import { FormulaStep } from './FormulaStep';
 import { NoviceVsPro } from './NoviceVsPro';
 import { PhasesStep } from './PhasesStep';
+import { T } from '@/components/glossary/Terms';
 
 type Step = 'concept' | 'fit' | 'phases' | 'cards' | 'formula' | 'compare';
 
@@ -101,7 +102,9 @@ export function TheoryModule({ config, onComplete }: { config: TheoryConfig; onC
               {config.cardsNote && (
                 <p className="flex items-start gap-3 rounded-[28px] bg-sun p-5 text-ink/80">
                   <span className="text-2xl">🎚️</span>
-                  {config.cardsNote}
+                  <span>
+                    <T>{config.cardsNote}</T>
+                  </span>
                 </p>
               )}
             </div>

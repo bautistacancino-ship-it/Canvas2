@@ -10,20 +10,23 @@ import { IconTile } from '@/components/ui/IconTile';
 import { BLOB_COLORS, toneAt } from '@/lib/tones';
 import type { BadgeId, QuizConfig, QuizResult, TheoryCard } from '@/types/game';
 import { TimedQuiz } from './TimedQuiz';
+import { T } from '@/components/glossary/Terms';
 
 interface QuizPhaseProps {
   config: QuizConfig;
   /** Tarjetas de teoría para el repaso cuando no se alcanza el umbral. */
   cards: TheoryCard[];
   onPass: (result: QuizResult, badges: BadgeId[]) => void;
+  /** Mientras un tutorial está abierto, el reloj no corre. */
+  paused?: boolean;
 }
 
 /** Intentos del quiz: aprobar desbloquea la fase 3; reprobar lleva a repasar y reintentar. */
-export function QuizPhase({ config, cards, onPass }: QuizPhaseProps) {
+export function QuizPhase({ config, cards, onPass, paused = false }: QuizPhaseProps) {
   const [attempt, setAttempt] = useState(1);
   const [result, setResult] = useState<QuizResult | null>(null);
 
-  if (!result) return <TimedQuiz key={attempt} config={config} onComplete={setResult} />;
+  if (!result) return <TimedQuiz key={attempt} config={config} paused={paused} onComplete={setResult} />;
 
   const perfect = result.correct === result.total;
   const badges: BadgeId[] = perfect && config.perfectBadgeId ? [config.perfectBadgeId] : [];
@@ -84,10 +87,12 @@ export function QuizPhase({ config, cards, onPass }: QuizPhaseProps) {
               <IconTile icon={card.icon} tone={toneAt(i)} size="sm" />
               <p className="font-display text-lg font-bold leading-tight">{card.title}</p>
             </div>
-            <p className="mt-3 text-sm text-ink/75">{card.body}</p>
+            <p className="mt-3 text-sm text-ink/75">
+              <T>{card.body}</T>
+            </p>
             <p className="mt-3 rounded-2xl bg-surface p-3 text-sm">
               <span className="font-bold text-lavender-strong">En tu agencia: </span>
-              {card.example}
+              <T>{card.example}</T>
             </p>
           </div>
         ))}
@@ -98,7 +103,9 @@ export function QuizPhase({ config, cards, onPass }: QuizPhaseProps) {
         <ul className="mt-2 space-y-2 text-sm">
           {wrongQuestions.map((q) => (
             <li key={q.id} className="rounded-2xl bg-surface p-3">
-              <span className="font-semibold">{q.topic}:</span> <span className="text-ink/70">{q.explanation}</span>
+              <span className="font-semibold">{q.topic}:</span> <span className="text-ink/70">
+                <T>{q.explanation}</T>
+              </span>
             </li>
           ))}
         </ul>

@@ -2,6 +2,7 @@ import { cardClass } from '@/components/ui/Card';
 import type { MonthReport } from '@/lib/accounts';
 import { formatCoins } from '@/lib/scoring';
 import type { AccountsConfig } from '@/types/game';
+import { T } from '@/components/glossary/Terms';
 
 /** Informe al cerrar un mes: cómo cambió la salud de cada cliente y por qué. */
 export function MonthReportView({ config, report, revealHints }: { config: AccountsConfig; report: MonthReport; revealHints: boolean }) {
@@ -9,7 +10,7 @@ export function MonthReportView({ config, report, revealHints }: { config: Accou
     <div className="space-y-4">
       {report.eventText && (
         <p className={`rounded-2xl p-3 text-sm ${report.eventCorrect ? 'bg-lime' : 'bg-pink'}`}>
-          <b>{report.eventCorrect ? '💚 +' + config.rewards.perCorrectEvent + ' Lealtad' : '✗'}</b> · {report.eventText} → {report.eventOutcome}
+          <b>{report.eventCorrect ? '💚 +' + config.rewards.perCorrectEvent + ' Lealtad' : '✗'}</b> · <T>{report.eventText}</T> → <T>{report.eventOutcome}</T>
         </p>
       )}
       <div className="grid gap-3 md:grid-cols-3">
@@ -46,7 +47,7 @@ export function MonthReportView({ config, report, revealHints }: { config: Accou
       </div>
       {report.notes.map((n) => (
         <p key={n} className="rounded-2xl bg-sun p-3 text-sm">
-          📌 {n}
+          📌 <T>{n}</T>
         </p>
       ))}
       {revealHints && (
@@ -55,7 +56,7 @@ export function MonthReportView({ config, report, revealHints }: { config: Accou
           <ul className="mt-2 space-y-1 text-sm">
             {config.clients.map((c) => (
               <li key={c.id}>
-                {c.avatar} <b>{c.name}</b> ({c.plan}, {formatCoins(c.fee)}/mes): {c.values}
+                {c.avatar} <b>{c.name}</b> ({c.plan}, {formatCoins(c.fee)}/mes): <T>{c.values}</T>
               </li>
             ))}
           </ul>

@@ -8,6 +8,7 @@ import { cardClass } from '@/components/ui/Card';
 import type { PointLine } from '@/lib/inbox';
 import { BLOB_COLORS } from '@/lib/tones';
 import type { ActivityOutcome, BadgeId, MeterEffects } from '@/types/game';
+import { T } from '@/components/glossary/Terms';
 
 export interface OutcomeCopy {
   totalTitle: string;
@@ -64,7 +65,7 @@ export function ActivityOutcomeCard({
             </div>
           ))}
         </div>
-        <p className="mx-auto mt-4 max-w-md rounded-2xl bg-white/15 p-3 font-medium">💡 Pista: {hint}</p>
+        <p className="mx-auto mt-4 max-w-md rounded-2xl bg-white/15 p-3 font-medium">💡 Pista: <T>{hint}</T></p>
         <Button variant="dark" size="lg" className="mt-5" onClick={onRetry}>
           Reintentar ↻
         </Button>
@@ -83,7 +84,9 @@ export function ActivityOutcomeCard({
         <div className="min-w-0 flex-1 basis-56">
           <p className="text-xs font-bold uppercase tracking-widest text-ink/60">{total ? '🏆 Éxito total' : '⚠️ Éxito parcial'}</p>
           <h3 className="font-display text-2xl font-bold">{total ? copy.totalTitle : copy.partialTitle}</h3>
-          <p className="text-sm text-ink/70">{total ? copy.totalBody : copy.partialBody}</p>
+          <p className="text-sm text-ink/70">
+            <T>{total ? copy.totalBody : copy.partialBody}</T>
+          </p>
         </div>
       </div>
 
