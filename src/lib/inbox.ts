@@ -1,13 +1,14 @@
-import { clamp } from '@/lib/scoring';
+import { clamp, resourceImpact } from '@/lib/scoring';
 import type {
+  ActivityOutcome,
+  ActivityResult,
   BadgeId,
   InboxConfig,
   InboxLead,
   InboxOption,
-  InboxOutcome,
-  InboxResult,
   LeadClass,
   LeadField,
+  MeterEffects,
 } from '@/types/game';
 
 /* ──────────────────────────────────────────────────────────────
@@ -44,9 +45,18 @@ export interface InboxComputed {
   flags: string[];
 }
 
-export interface InboxEvaluation extends InboxResult {
+export interface InboxEvaluation {
+  outcome: ActivityOutcome;
   correctByLead: Record<string, boolean>;
+  correctClassifications: number;
+  totalLeads: number;
+  points: number;
   breakdown: PointLine[];
+  hours: number;
+  budget: number;
+  badges: BadgeId[];
+  flags: string[];
+  meterImpact: MeterEffects;
 }
 
 export function computeInbox(config: InboxConfig, picks: InboxPicks): InboxComputed {
@@ -110,11 +120,7 @@ export function meterImpact(config: InboxConfig, computed: InboxComputed) {
   const trusts = Object.values(computed.leads).map((l) => l.trust - config.initial.trust);
   const avgTrust = trusts.reduce((a, b) => a + b, 0) / Math.max(trusts.length, 1);
   return {
-    rentabilidad: clamp(
-      Math.round((computed.budget - config.initial.budget) / 200 + (computed.hours - config.initial.hours) / 5),
-      -30,
-      30,
-    ),
+    rentabilidad: resourceImpact(computed.budget - config.initial.budget, computed.hours - config.initial.hours),
     reputacion: clamp(Math.round(avgTrust / 2), -30, 30),
   };
 }
@@ -131,7 +137,7 @@ export function evaluateInbox(config: InboxConfig, computed: InboxComputed, clas
     correctCount === config.leads.length &&
     computed.hours >= config.success.minHours &&
     computed.budget >= config.success.minBudget;
-  const outcome: InboxOutcome = collapsed ? 'collapse' : total ? 'total' : 'partial';
+  const outcome: ActivityOutcome = collapsed ? 'collapse' : total ? 'total' : 'partial';
 
   const breakdown = [...computed.breakdown];
   if (correctCount > 0) {
@@ -152,5 +158,20 @@ export function evaluateInbox(config: InboxConfig, computed: InboxComputed, clas
     badges,
     flags: computed.flags,
     meterImpact: meterImpact(config, computed),
+  };
+}
+
+export function toActivityResult(evaluation: InboxEvaluation): ActivityResult {
+  return {
+    kind: 'inbox',
+    outcome: evaluation.outcome,
+    points: evaluation.points,
+    badges: evaluation.badges,
+    flags: evaluation.flags,
+    meterImpact: evaluation.meterImpact,
+    highlight: {
+      label: 'Leads bien clasificados',
+      value: `${evaluation.correctClassifications}/${evaluation.totalLeads}`,
+    },
   };
 }

@@ -22,7 +22,7 @@ export function LevelComplete({
   badges: BadgeId[];
   onEdit: () => void;
 }) {
-  const inbox = progress?.inbox;
+  const activity = progress?.activity;
 
   return (
     <div className="mx-auto max-w-md px-4 py-8">
@@ -66,7 +66,7 @@ export function LevelComplete({
 
             <div className="mt-5 grid grid-cols-3 gap-2 text-center">
               <MiniStat label="Quiz" value={`${progress?.quiz?.correct ?? 0}/${progress?.quiz?.total ?? 0}`} bg="bg-lavender" />
-              <MiniStat label="Leads bien clasificados" value={`${inbox?.correctClassifications ?? 0}/${inbox?.totalLeads ?? 0}`} bg="bg-sky" />
+              <MiniStat label={activity?.highlight.label ?? 'Actividad'} value={activity?.highlight.value ?? '—'} bg="bg-sky" />
               <MiniStat label="Bloques" value={`${completedCount}/9`} bg="bg-lime" />
             </div>
 

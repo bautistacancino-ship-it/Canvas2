@@ -16,6 +16,20 @@ export const BADGES: Record<BadgeId, Badge> = {
     name: 'Growth Strategist',
     description: 'Éxito total en el Inbox de Leads.',
   },
+  'above-the-fold': { id: 'above-the-fold', icon: '⚡', name: 'Above the Fold', description: '7/7 en el quiz de Propuesta de Valor.' },
+  'pixel-perfect-fit': {
+    id: 'pixel-perfect-fit',
+    icon: '🧩',
+    name: 'Pixel Perfect Fit',
+    description: 'Conectaste cada necesidad del cliente con lo que la resuelve.',
+  },
+  'los-numeros-hablan': {
+    id: 'los-numeros-hablan',
+    icon: '📊',
+    name: 'Los números hablan',
+    description: 'Elegiste un testimonio con métrica como prueba social.',
+  },
+  'value-architect': { id: 'value-architect', icon: '🎖️', name: 'Value Architect', description: 'Éxito total en el Fit Lab.' },
 };
 
 export const BADGE_LIST = Object.values(BADGES);

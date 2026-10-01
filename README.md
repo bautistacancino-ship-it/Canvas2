@@ -57,6 +57,11 @@ del inbox), `canvas` (respuestas por bloque), `badges`, `flags` (eventos narrati
 Acciones: `startGame`, `setPhase`, `registerQuizAnswer`, `completeQuiz`, `completeInbox`, `saveCanvasDraft`,
 `completeLevel`, `resetGame`. Reintentar o recargar nunca regala puntos dos veces.
 
+## Regla de desbloqueo
+
+Un bloque se desbloquea al completar el anterior. La actividad de la Fase 3 debe terminar en **éxito total o
+parcial**: el parcial basta para avanzar; el colapso obliga a reintentar. El éxito total solo agrega su insignia.
+
 ## Nivel 1 · Segmentos de Clientes (Agencia de Marketing Digital y Diseño Web)
 
 | Fase | Mecánica |
@@ -75,3 +80,22 @@ Acciones: `startGame`, `setPhase`, `registerQuizAnswer`, `completeQuiz`, `comple
 
 Al cerrar el Inbox, el resultado impacta los medidores globales: Rentabilidad según presupuesto y horas finales,
 Reputación según la confianza promedio (máx. ±30). Completar el nivel suma +250.
+
+## Nivel 2 · Propuesta de Valor (Agencia de Marketing Digital y Diseño Web)
+
+| Fase | Mecánica |
+| --- | --- |
+| 1 · Micro-learning | Concepto *above the fold* → El Encaje (perfil ↔ mapa de valor) → 7 tipos de valor (Precio es tarjeta trampa) → La fórmula → Novato vs. Pro |
+| 2 · Quiz | Mismas reglas que el Nivel 1. 7/7 → ⚡ *Above the Fold* |
+| 3 · Fit Lab | **A** Mapa de Fit: conectar 7 necesidades de Valentina con servicios (un intento cada una) y mandar las 4 trampas a la papelera. **B** Hero Builder: 5 slots above the fold. **C** Test de 5 segundos: mapa de calor, comprensión, CTR y reacciones de 10 usuarios |
+| 4 · Reto final | "Ayudamos a ___ a ___ sin ___, gracias a ___" (máx. 25 palabras, test de lectura de 5 s) + el Fit en 3 líneas. Puede traer el rubro escrito en Segmentos |
+
+**Recompensas:** +40 por conexión correcta · +50 por trampa a la papelera · −10 horas por trampa conectada ·
++100 Fit al 100% (🧩 *Pixel Perfect Fit*) · +30 por slot correcto · +50 testimonio con métrica (📊 *Los números hablan*) ·
++2.000 monedas si CTR ≥ 4% · 🎖️ *Value Architect* con éxito total.
+
+**Resultados:** 🏆 total (7 conexiones, 4 trampas en la papelera, 5 slots) · ⚠️ parcial (Fit ≥ 70% y ≥ 3 slots) ·
+💀 rebote total (2+ trampas conectadas, titular genérico, comprensión < 50%, o no alcanza el parcial).
+
+La Fase 3 de cada nivel es intercambiable (`simulation.kind`: `inbox` | `fit-lab`), igual que la Fase 4 (`build.kind`:
+`media-query` | `value-formula` | `fields`). La lógica de cada actividad vive en `lib/` como funciones puras.

@@ -33,7 +33,7 @@ export function FlipCards({ cards, seen, onSeen }: FlipCardsProps) {
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {cards.map((card, i) => {
         const isFlipped = flipped.has(card.id);
-        const tone = toneAt(i);
+        const tone = card.trap ? 'pink' : toneAt(i);
         return (
           <motion.button
             key={card.id}
@@ -54,13 +54,19 @@ export function FlipCards({ cards, seen, onSeen }: FlipCardsProps) {
               transition={{ type: 'spring', stiffness: 260, damping: 24 }}
             >
               <div
-                className={`absolute inset-0 flex flex-col rounded-[28px] p-5 shadow-soft ring-1 ring-ink/5 ${TONES[tone].soft}`}
+                className={`absolute inset-0 flex flex-col rounded-[28px] p-5 shadow-soft ${TONES[tone].soft} ${
+                  card.trap ? 'ring-2 ring-pink-strong ring-offset-2 ring-offset-surface' : 'ring-1 ring-ink/5'
+                }`}
                 style={{ backfaceVisibility: 'hidden' }}
               >
                 <div className="flex items-start justify-between">
                   <IconTile icon={card.icon} tone={tone} size="md" className="bg-white!" />
-                  {seen.has(card.id) && (
-                    <span className="rounded-full bg-white px-2.5 py-1 text-xs font-bold text-lime-strong">✓ Vista</span>
+                  {card.trap ? (
+                    <span className="rounded-full bg-pink-strong px-2.5 py-1 text-xs font-bold text-white">🪤 Trampa</span>
+                  ) : (
+                    seen.has(card.id) && (
+                      <span className="rounded-full bg-white px-2.5 py-1 text-xs font-bold text-lime-strong">✓ Vista</span>
+                    )
                   )}
                 </div>
                 <h3 className="mt-4 font-display text-xl font-bold leading-tight">{card.title}</h3>
@@ -73,12 +79,12 @@ export function FlipCards({ cards, seen, onSeen }: FlipCardsProps) {
                 style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
               >
                 <span className={`self-start rounded-full px-3 py-1 text-xs font-bold ${TONES[tone].soft} ${TONES[tone].text}`}>
-                  En tu agencia
+                  {card.trap ? '⚠️ Cuidado' : 'En tu agencia'}
                 </span>
                 <p className="mt-3 pr-8 text-[15px] font-medium leading-relaxed">{card.example}</p>
                 <Blob
                   color={BLOB_CYCLE[i % BLOB_CYCLE.length]}
-                  mood="happy"
+                  mood={card.trap ? 'sad' : 'happy'}
                   size={70}
                   float={false}
                   className="absolute -bottom-3 -right-3"

@@ -9,7 +9,7 @@ import { cardClass } from '@/components/ui/Card';
 import { computeInbox, type InboxClasses, type InboxPicks } from '@/lib/inbox';
 import { formatCoins } from '@/lib/scoring';
 import { BLOB_COLORS } from '@/lib/tones';
-import type { InboxConfig, InboxResult, LeadClass } from '@/types/game';
+import type { ActivityResult, InboxConfig, LeadClass } from '@/types/game';
 import { CLASS_META, FIT_META } from './inboxMeta';
 import { InboxDebrief } from './InboxDebrief';
 import { LeadChat } from './LeadChat';
@@ -19,7 +19,7 @@ const FAKE_TIMES = ['09:12', '10:47', '11:30', '12:05'];
 
 interface InboxSimulatorProps {
   config: InboxConfig;
-  onComplete: (result: InboxResult) => void;
+  onComplete: (result: ActivityResult) => void;
 }
 
 /**

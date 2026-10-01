@@ -20,6 +20,12 @@ export interface LevelStatusItem {
   phase?: BlockPhase;
 }
 
+/**
+ * Regla de desbloqueo: un nivel se abre cuando el anterior está 'done'. Llegar a 'done' exige
+ * pasar la Fase 3 con éxito total O parcial (el colapso obliga a reintentar), así que el éxito
+ * parcial desbloquea el siguiente bloque. El éxito total solo suma la insignia.
+ * (Decisión de diseño: los documentos de los módulos piden éxito total, pero se optó por parcial.)
+ */
 export function getLevelStatuses(
   businessId: BusinessId,
   progress: Partial<Record<CanvasBlockId, BlockProgress>>,

@@ -9,8 +9,10 @@ import { getBlockMeta } from '@/data/canvasBlocks';
 import { getLevel } from '@/data/levels';
 import { BLOB_COLORS } from '@/lib/tones';
 import { selectBlockPhase, useGameStore, useHasHydrated } from '@/store/useGameStore';
-import type { CanvasBlockId } from '@/types/game';
+import type { CanvasBlockId, CanvasEntry } from '@/types/game';
 import { CanvasBlockForm } from './build/CanvasBlockForm';
+import { FormulaBuilder } from './build/FormulaBuilder';
+import { FitLab } from './fitlab/FitLab';
 import { MediaQueryBuilder } from './build/MediaQueryBuilder';
 import { LevelComplete } from './LevelComplete';
 import { PhaseStepper } from './PhaseStepper';
@@ -38,7 +40,8 @@ export function LevelRunner({ blockId }: { blockId: CanvasBlockId }) {
   const blockProgress = useGameStore((s) => s.progress[blockId]);
   const badges = useGameStore((s) => s.badges);
   const completedCount = useGameStore((s) => Object.values(s.progress).filter((p) => p?.phase === 'done').length);
-  const { setPhase, completeQuiz, completeInbox, saveCanvasDraft, completeLevel } = useGameStore.getState();
+  const canvas = useGameStore((s) => s.canvas);
+  const { setPhase, completeQuiz, completeActivity, saveCanvasDraft, completeLevel } = useGameStore.getState();
 
   if (!hydrated) return <LoadingBlob label="Cargando partida…" />;
 
@@ -71,6 +74,33 @@ export function LevelRunner({ blockId }: { blockId: CanvasBlockId }) {
   }
 
   const heading = { kicker: PHASE_KICKERS[phase], title: level[phase].title };
+
+  const buildProps = {
+    blockTitle: meta.title,
+    blockIcon: meta.icon,
+    tone: meta.tone,
+    initialValues: savedEntry,
+    onDraft: (values: CanvasEntry) => saveCanvasDraft(blockId, values),
+    onSubmit: (values: CanvasEntry) => completeLevel(blockId, values),
+  };
+  const build = level.build;
+  const referenceBlock = build.kind === 'value-formula' ? build.reference?.blockId : undefined;
+  const renderBuild = () =>
+    build.kind === 'media-query' ? (
+      <MediaQueryBuilder {...buildProps} config={build} />
+    ) : build.kind === 'value-formula' ? (
+      <FormulaBuilder
+        {...buildProps}
+        config={build}
+        reference={
+          referenceBlock
+            ? { build: getLevel(profile.businessId, referenceBlock)?.build, entry: canvas[referenceBlock] }
+            : undefined
+        }
+      />
+    ) : (
+      <CanvasBlockForm {...buildProps} config={build} />
+    );
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
@@ -108,31 +138,14 @@ export function LevelRunner({ blockId }: { blockId: CanvasBlockId }) {
           )}
 
           {phase === 'simulation' && (
-            <InboxSimulator config={level.simulation} onComplete={(result) => completeInbox(blockId, result)} />
+            (level.simulation.kind === 'inbox' ? (
+              <InboxSimulator config={level.simulation} onComplete={(result) => completeActivity(blockId, result)} />
+            ) : (
+              <FitLab config={level.simulation} onComplete={(result) => completeActivity(blockId, result)} />
+            ))
           )}
 
-          {phase === 'build' &&
-            (level.build.kind === 'media-query' ? (
-              <MediaQueryBuilder
-                blockTitle={meta.title}
-                blockIcon={meta.icon}
-                tone={meta.tone}
-                config={level.build}
-                initialValues={savedEntry}
-                onDraft={(values) => saveCanvasDraft(blockId, values)}
-                onSubmit={(values) => completeLevel(blockId, values)}
-              />
-            ) : (
-              <CanvasBlockForm
-                blockTitle={meta.title}
-                blockIcon={meta.icon}
-                tone={meta.tone}
-                config={level.build}
-                initialValues={savedEntry}
-                onDraft={(values) => saveCanvasDraft(blockId, values)}
-                onSubmit={(values) => completeLevel(blockId, values)}
-              />
-            ))}
+          {phase === 'build' && renderBuild()}
         </motion.section>
       </AnimatePresence>
     </div>

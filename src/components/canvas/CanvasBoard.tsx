@@ -8,7 +8,7 @@ import { ProgressRing } from '@/components/ui/ProgressRing';
 import { getBusiness } from '@/data/businesses';
 import { CANVAS_BLOCKS } from '@/data/canvasBlocks';
 import { getLevel } from '@/data/levels';
-import { MediaQueryCode } from './MediaQueryCode';
+import { CanvasEntryView } from './CanvasEntryView';
 import { TONES } from '@/lib/tones';
 import { useGameStore, useHasHydrated } from '@/store/useGameStore';
 
@@ -58,7 +58,6 @@ export function CanvasBoard() {
           const entry = canvas[block.id];
           const isDone = progress[block.id]?.phase === 'done';
           const build = getLevel(profile.businessId, block.id)?.build;
-          const fields = build?.kind === 'fields' ? build.fields : [];
           const tone = TONES[block.tone];
 
           return (
@@ -85,21 +84,8 @@ export function CanvasBoard() {
                 <span className="text-[11px] font-bold text-muted">#{block.order}</span>
               </header>
 
-              {isDone && entry && build?.kind === 'media-query' ? (
-                <MediaQueryCode config={build} entry={entry} className="mt-3" />
-              ) : isDone && entry ? (
-                <div className="mt-3 space-y-2 text-sm">
-                  {Object.entries(entry)
-                    .filter(([, value]) => value.trim())
-                    .map(([fieldId, value]) => (
-                      <div key={fieldId} className="rounded-2xl bg-white/75 p-2.5">
-                        <p className={`text-[10px] font-bold uppercase tracking-wide ${tone.text}`}>
-                          {fields.find((f) => f.id === fieldId)?.label ?? fieldId}
-                        </p>
-                        <p className="whitespace-pre-line leading-snug">{value}</p>
-                      </div>
-                    ))}
-                </div>
+              {isDone && entry ? (
+                <CanvasEntryView build={build} entry={entry} labelClass={tone.text} />
               ) : (
                 <p className="mt-3 text-sm text-muted/80">{block.question}</p>
               )}

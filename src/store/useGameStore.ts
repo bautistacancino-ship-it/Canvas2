@@ -2,13 +2,13 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { LEVEL_COMPLETION_POINTS, applyMeterEffects } from '@/lib/scoring';
 import type {
+  ActivityResult,
   BadgeId,
   BlockPhase,
   BlockProgress,
   BusinessId,
   CanvasBlockId,
   CanvasEntry,
-  InboxResult,
   Meters,
   PlayerProfile,
   QuizResult,
@@ -19,7 +19,7 @@ import type {
  *
  * Reglas anti-farming (refrescar o repetir no regala puntos):
  *  - El quiz puntúa una sola vez por bloque (el primer intento aprobado).
- *  - El Inbox de Leads puntúa una sola vez por bloque.
+ *  - La actividad práctica (Fase 3) puntúa una sola vez por bloque.
  *  - El bonus de nivel completado se entrega una sola vez.
  * ────────────────────────────────────────────────────────────── */
 
@@ -54,7 +54,7 @@ interface GameActions {
   registerQuizAnswer: (correct: boolean) => void;
   setPhase: (blockId: CanvasBlockId, phase: BlockPhase) => void;
   completeQuiz: (blockId: CanvasBlockId, result: QuizResult, badges: BadgeId[]) => void;
-  completeInbox: (blockId: CanvasBlockId, result: InboxResult) => void;
+  completeActivity: (blockId: CanvasBlockId, result: ActivityResult) => void;
   saveCanvasDraft: (blockId: CanvasBlockId, entry: CanvasEntry) => void;
   completeLevel: (blockId: CanvasBlockId, entry: CanvasEntry) => void;
   resetGame: () => void;
@@ -137,18 +137,18 @@ export const useGameStore = create<GameStore>()(
           };
         }),
 
-      completeInbox: (blockId, result) =>
+      completeActivity: (blockId, result) =>
         set((s) => {
-          const alreadyScored = Boolean(s.progress[blockId]?.inbox);
+          const alreadyScored = Boolean(s.progress[blockId]?.activity);
           return {
             ...(alreadyScored
               ? {}
-              : { ...withPoints(s, result.points, `Inbox de Leads · ${blockId}`), meters: applyMeterEffects(s.meters, result.meterImpact) }),
+              : { ...withPoints(s, result.points, `Actividad · ${blockId}`), meters: applyMeterEffects(s.meters, result.meterImpact) }),
             badges: union(s.badges, result.badges),
             flags: union(s.flags, result.flags),
             progress: patchProgress(s.progress, blockId, {
               phase: 'build',
-              inbox: s.progress[blockId]?.inbox ?? result,
+              activity: s.progress[blockId]?.activity ?? result,
             }),
           };
         }),
@@ -172,7 +172,7 @@ export const useGameStore = create<GameStore>()(
     }),
     {
       name: STORAGE_KEY,
-      version: 2,
+      version: 3,
       storage: createJSONStorage(() => localStorage),
       // Rehidratamos manualmente desde <StoreHydrator/> para evitar
       // mismatches entre el HTML del servidor y el estado del cliente.
@@ -182,6 +182,27 @@ export const useGameStore = create<GameStore>()(
         // v2: el Nivel 1 cambió por completo (nuevo quiz, Inbox de Leads y media query).
         // Se conserva el perfil y se reinicia el avance.
         if (version < 2) return { ...initialData, profile: old.profile ?? null } as GameStore;
+        // v3: el resultado de la Fase 3 pasó de `inbox` a `activity` (genérico para cualquier actividad).
+        if (version < 3) {
+          type LegacyInbox = { outcome: ActivityResult['outcome']; points: number; badges: BadgeId[]; flags: string[]; meterImpact: ActivityResult['meterImpact']; correctClassifications: number; totalLeads: number };
+          const progress = Object.fromEntries(
+            Object.entries(old.progress ?? {}).map(([id, p]) => {
+              const { inbox, ...rest } = p as BlockProgress & { inbox?: LegacyInbox };
+              if (!inbox) return [id, rest];
+              const activity: ActivityResult = {
+                kind: 'inbox',
+                outcome: inbox.outcome,
+                points: inbox.points,
+                badges: inbox.badges,
+                flags: inbox.flags,
+                meterImpact: inbox.meterImpact,
+                highlight: { label: 'Leads bien clasificados', value: `${inbox.correctClassifications}/${inbox.totalLeads}` },
+              };
+              return [id, { ...rest, activity }];
+            }),
+          );
+          return { ...(old as GameData), progress } as GameStore;
+        }
         return persisted as GameStore;
       },
       partialize: ({ profile, score, streak, bestStreak, meters, progress, canvas, badges, flags, scoreLog }) => ({

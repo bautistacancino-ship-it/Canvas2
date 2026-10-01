@@ -9,10 +9,18 @@ const normalize = (text: string) =>
     .replace(/[̀-ͯ]/g, '')
     .toLowerCase();
 
-/** Devuelve la primera palabra prohibida encontrada (sin importar tildes ni mayúsculas). */
+const escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+/**
+ * Devuelve la primera palabra prohibida encontrada (sin importar tildes ni mayúsculas).
+ * Los símbolos en los extremos se ignoran: "360°" también detecta "360".
+ */
 export function findForbiddenWord(text: string, words: string[]) {
   const haystack = normalize(text);
-  return words.find((word) => new RegExp(`(^|[^a-z0-9])${normalize(word)}($|[^a-z0-9])`).test(haystack));
+  return words.find((word) => {
+    const core = normalize(word).replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, '');
+    return core && new RegExp(`(^|[^a-z0-9])${escapeRegExp(core)}($|[^a-z0-9])`).test(haystack);
+  });
 }
 
 export function hasSecondary(config: MediaQueryBuildConfig, entry: CanvasEntry) {

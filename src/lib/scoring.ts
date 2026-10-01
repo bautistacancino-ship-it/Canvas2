@@ -22,6 +22,10 @@ export function applyMeterEffects(meters: Meters, effects: MeterEffects): Meters
   };
 }
 
+/** Impacto en Rentabilidad según monedas y horas ganadas/perdidas en una actividad (máx. ±30). */
+export const resourceImpact = (budgetDelta: number, hoursDelta: number) =>
+  clamp(Math.round(budgetDelta / 200 + hoursDelta / 5), -30, 30);
+
 export const formatCoins = (value: number) => value.toLocaleString('es-CL');
 
 export function shuffle<T>(items: readonly T[]): T[] {

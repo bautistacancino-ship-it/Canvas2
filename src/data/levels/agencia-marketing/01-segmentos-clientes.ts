@@ -225,6 +225,7 @@ export const agenciaSegmentosClientes = {
 
   /* ─── Fase 3 · Inbox de Leads ────────────────────────────── */
   simulation: {
+    kind: 'inbox',
     title: 'Inbox de Leads',
     premise: 'Tus clientes más rentables son ecommerce de moda y belleza que ya venden online. Hoy tienes 3 mensajes nuevos.',
     initial: { trust: 50, hours: 100, budget: 10000 },

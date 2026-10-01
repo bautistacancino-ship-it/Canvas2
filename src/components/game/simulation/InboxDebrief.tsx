@@ -1,15 +1,12 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { useMemo, useState } from 'react';
-import { BadgeChip } from '@/components/ui/BadgeChip';
-import { Blob } from '@/components/ui/Blob';
 import { Button } from '@/components/ui/Button';
 import { cardClass } from '@/components/ui/Card';
-import { evaluateInbox, type InboxClasses, type InboxComputed } from '@/lib/inbox';
+import { evaluateInbox, toActivityResult, type InboxClasses, type InboxComputed } from '@/lib/inbox';
 import { formatCoins } from '@/lib/scoring';
-import { BLOB_COLORS } from '@/lib/tones';
-import type { InboxConfig, InboxResult, LeadClass } from '@/types/game';
+import type { ActivityResult, InboxConfig, LeadClass } from '@/types/game';
+import { ActivityOutcomeCard } from '../shared/ActivityOutcomeCard';
 import { CLASS_META, CLASS_ORDER, FIT_META } from './inboxMeta';
 
 interface InboxDebriefProps {
@@ -19,7 +16,7 @@ interface InboxDebriefProps {
   onClassify: (leadId: string, value: LeadClass) => void;
   onBack: () => void;
   onRetry: () => void;
-  onContinue: (result: InboxResult) => void;
+  onContinue: (result: ActivityResult) => void;
 }
 
 /** Pantalla final: fichas lado a lado, confirmación de la clasificación y resultado del pipeline. */
@@ -27,17 +24,6 @@ export function InboxDebrief({ config, computed, classes, onClassify, onBack, on
   const [confirmed, setConfirmed] = useState(false);
   const evaluation = useMemo(() => evaluateInbox(config, computed, classes), [config, computed, classes]);
 
-  const toResult = (): InboxResult => ({
-    outcome: evaluation.outcome,
-    correctClassifications: evaluation.correctClassifications,
-    totalLeads: evaluation.totalLeads,
-    points: evaluation.points,
-    hours: evaluation.hours,
-    budget: evaluation.budget,
-    badges: evaluation.badges,
-    flags: evaluation.flags,
-    meterImpact: evaluation.meterImpact,
-  });
 
   return (
     <div className="space-y-5">
@@ -121,141 +107,30 @@ export function InboxDebrief({ config, computed, classes, onClassify, onBack, on
           </Button>
         </div>
       ) : (
-        <Outcome
-          config={config}
-          evaluation={evaluation}
+        <ActivityOutcomeCard
+          outcome={evaluation.outcome}
+          copy={{
+            totalTitle: '¡Pipeline impecable!',
+            totalBody: 'Fichas completas, leads bien clasificados y tu equipo con horas y caja de sobra.',
+            partialTitle: `${evaluation.correctClassifications}/${evaluation.totalLeads} bien clasificados`,
+            partialBody:
+              'Para el éxito total necesitas las 3 fichas completas, las 3 clasificaciones correctas y horas y presupuesto sobre el 70%.',
+            collapseLabel: '💀 Pipeline colapsado',
+            collapseTitle: 'Tu agencia está en números rojos 🔥',
+          }}
+          stats={[
+            { label: '⏱️ Horas del equipo', value: `${evaluation.hours}/${config.initial.hours}` },
+            { label: '💰 Presupuesto', value: formatCoins(evaluation.budget) },
+          ]}
+          breakdown={evaluation.breakdown}
+          points={evaluation.points}
+          badges={evaluation.badges}
+          meterImpact={evaluation.meterImpact}
+          hint={config.collapse.hint}
           onRetry={onRetry}
-          onContinue={() => onContinue(toResult())}
+          onContinue={() => onContinue(toActivityResult(evaluation))}
         />
       )}
     </div>
-  );
-}
-
-function Outcome({
-  config,
-  evaluation,
-  onRetry,
-  onContinue,
-}: {
-  config: InboxConfig;
-  evaluation: ReturnType<typeof evaluateInbox>;
-  onRetry: () => void;
-  onContinue: () => void;
-}) {
-  const { outcome } = evaluation;
-
-  if (outcome === 'collapse') {
-    return (
-      <motion.section
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="overflow-hidden rounded-[32px] bg-linear-to-br from-pink-strong to-peach-strong p-6 text-center text-white shadow-float"
-      >
-        <div className="flex justify-center">
-          <Blob color={BLOB_COLORS.ink} mood="sad" size={100} />
-        </div>
-        <p className="mt-2 text-xs font-bold uppercase tracking-widest text-white/80">💀 Pipeline colapsado</p>
-        <h3 className="font-display text-3xl font-bold">Tu agencia está en números rojos 🔥</h3>
-        <div className="mx-auto mt-4 grid max-w-sm grid-cols-2 gap-2">
-          <div className="rounded-2xl bg-white/20 p-3">
-            <p className="font-display text-2xl font-bold">{formatCoins(evaluation.budget)}</p>
-            <p className="text-xs">monedas en caja</p>
-          </div>
-          <div className="rounded-2xl bg-white/20 p-3">
-            <p className="font-display text-2xl font-bold">{evaluation.hours}</p>
-            <p className="text-xs">horas del equipo</p>
-          </div>
-        </div>
-        <p className="mx-auto mt-4 max-w-md rounded-2xl bg-white/15 p-3 font-medium">💡 Pista: {config.collapse.hint}</p>
-        <Button variant="dark" size="lg" className="mt-5" onClick={onRetry}>
-          Reintentar el Inbox ↻
-        </Button>
-      </motion.section>
-    );
-  }
-
-  const total = outcome === 'total';
-  const { rentabilidad = 0, reputacion = 0 } = evaluation.meterImpact;
-  const signed = (n: number) => (n > 0 ? `+${n}` : String(n));
-
-  return (
-    <motion.section
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className={`${cardClass} overflow-hidden`}
-    >
-      <div className={`flex flex-wrap items-center gap-4 p-5 ${total ? 'bg-lime' : 'bg-sun'}`}>
-        <Blob color={total ? BLOB_COLORS.yellow : BLOB_COLORS.sky} mood={total ? 'excited' : 'thinking'} size={84} className="shrink-0" />
-        <div className="min-w-0 flex-1 basis-56">
-          <p className="text-xs font-bold uppercase tracking-widest text-ink/60">{total ? '🏆 Éxito total' : '⚠️ Éxito parcial'}</p>
-          <h3 className="font-display text-2xl font-bold">
-            {total ? '¡Pipeline impecable!' : `${evaluation.correctClassifications}/${evaluation.totalLeads} bien clasificados`}
-          </h3>
-          <p className="text-sm text-ink/70">
-            {total
-              ? 'Fichas completas, leads bien clasificados y tu equipo con horas y caja de sobra.'
-              : 'Para el éxito total necesitas las 3 fichas completas, las 3 clasificaciones correctas y horas y presupuesto sobre el 70%.'}
-          </p>
-        </div>
-      </div>
-
-      <div className="grid gap-5 p-5 md:grid-cols-2">
-        <div>
-          <p className="font-display font-bold">Puntos de la actividad</p>
-          <ul className="mt-2 space-y-1 text-sm">
-            {evaluation.breakdown.map((line) => (
-              <li key={line.label} className="flex justify-between gap-3 rounded-xl bg-surface px-3 py-1.5">
-                <span className="text-ink/75">{line.label}</span>
-                <span className="font-display font-semibold">+{line.points}</span>
-              </li>
-            ))}
-            <li className="flex justify-between gap-3 rounded-xl bg-sun px-3 py-1.5 font-display font-bold">
-              <span>Total</span>
-              <span>★ {evaluation.points}</span>
-            </li>
-          </ul>
-        </div>
-        <div className="space-y-4">
-          <div>
-            <p className="font-display font-bold">Estado de la agencia</p>
-            <div className="mt-2 grid grid-cols-2 gap-2 text-sm">
-              <div className="rounded-2xl bg-surface p-3">
-                <p className="text-xs text-muted">⏱️ Horas del equipo</p>
-                <p className="font-display text-xl font-bold">{evaluation.hours}/{config.initial.hours}</p>
-              </div>
-              <div className="rounded-2xl bg-surface p-3">
-                <p className="text-xs text-muted">💰 Presupuesto</p>
-                <p className="font-display text-xl font-bold">{formatCoins(evaluation.budget)}</p>
-              </div>
-            </div>
-            <p className="mt-2 text-xs text-muted">
-              Impacto en tus medidores: Rentabilidad {signed(rentabilidad)} · Reputación {signed(reputacion)}
-            </p>
-          </div>
-          {evaluation.badges.length > 0 && (
-            <div>
-              <p className="font-display font-bold">Insignias ganadas</p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {evaluation.badges.map((id) => (
-                  <BadgeChip key={id} id={id} />
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="flex flex-wrap justify-end gap-3 border-t border-line p-4">
-        {!total && (
-          <Button variant="soft" onClick={onRetry}>
-            Reintentar para el éxito total ↻
-          </Button>
-        )}
-        <Button variant="gradient" onClick={onContinue}>
-          Continuar al reto final →
-        </Button>
-      </div>
-    </motion.section>
   );
 }
