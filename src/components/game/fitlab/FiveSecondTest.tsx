@@ -23,14 +23,15 @@ export function FiveSecondTest({ config, picks, evaluation, onDone }: FiveSecond
   const bounced = evaluation.outcome === 'collapse';
   const users = USERS.slice(0, config.testUsers);
 
+  // Un tick por segundo: depende de `secondsLeft` para programar el siguiente.
   useEffect(() => {
-    if (!running) {
+    if (secondsLeft <= 0) {
       onDone();
       return;
     }
     const id = window.setTimeout(() => setSecondsLeft((s) => s - 1), 1000);
     return () => window.clearTimeout(id);
-  }, [running, onDone]);
+  }, [secondsLeft, onDone]);
 
   // Mapa de calor: los slots correctos concentran la atención; en un rebote total queda vacío.
   const heat = running
